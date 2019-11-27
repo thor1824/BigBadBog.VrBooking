@@ -3,7 +3,7 @@ using VrBooking.Core.Entity;
 
 namespace VrBooking.Core.ApplicationServices
 {
-    interface IUserService
+    public interface IUserService
     {
         User Create(User user);
         User Delete(long id);
