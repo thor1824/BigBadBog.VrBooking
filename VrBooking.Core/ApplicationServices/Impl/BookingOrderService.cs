@@ -6,6 +6,12 @@ namespace VrBooking.Core.ApplicationServices
 {
     public class BookingOrderService : IBookingOrderService
     {
+        private readonly IRepository<BookingOrder> _repo;
+        public BookingOrderService(IRepository<BookingOrder> repo) 
+        {
+            _repo = repo
+        }
+
         public BookingOrder Create(BookingOrder bo)
         {
             return null;
