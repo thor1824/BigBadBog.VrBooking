@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VrBooking.RestApi.WebApp", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{6FE1CDC2-E98F-47E9-89D1-26EE2A8A24F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTestServices\UnitTest.csproj", "{8481D8CF-2A6E-4672-B033-1382740B7C9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestServices", "UnitTestServices\TestServices.csproj", "{8481D8CF-2A6E-4672-B033-1382740B7C9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
