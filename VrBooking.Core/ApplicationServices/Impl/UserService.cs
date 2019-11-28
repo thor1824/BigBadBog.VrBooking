@@ -17,66 +17,126 @@ namespace VrBooking.Core.ApplicationServices
         }
         public User Create(User user)
         {
-            if (string.IsNullOrEmpty(user.Name) )
+            User createdUser;
+            try
             {
-                throw new InvalidDataException("user must contain a name");
-            }
-            if (CheckSchoolMail(user))
-            {
-                throw new InvalidDataException("the email must be an easv365 mail");
-            }
+                if (string.IsNullOrEmpty(user.Name))
+                {
+                    throw new InvalidDataException("user must contain a name");
+                }
+                if (!isEmailValid(user))
+                {
+                    throw new InvalidDataException("the email must be an easv365 mail");
+                }
 
-            if (CheckPhoneNumber(user))
-            {
-                throw new InvalidDataException("Phone Number must be 8 digits");
-            }
-            User user2 = _repo.Create(user);
-            if (CheckUserId(user2))
-            {
-                throw new InvalidDataException("ID not valid");
-            }
+                if (!isPhoneNumberValid(user))
+                {
+                    throw new InvalidDataException("Phone Number must be 8 digits");
+                }
 
-            return user2;
+                createdUser = _repo.Create(user);
+
+                if (!isIdValid(createdUser))
+                {
+                    throw new InvalidOperationException("ID not valid");
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            
+            return createdUser;
         }
 
-        
+
 
         public User Read(long id)
         {
-            User user = _repo.Read(id);
-            if (user == null)
+            User user;
+            try
             {
-                throw new InvalidOperationException("User does not exist");
+                user = _repo.Read(id);
+                if (user == null)
+                {
+                    throw new InvalidDataException("User does not exist");
+                }
+                if (user.Id != id)
+                {
+                    throw new InvalidOperationException("Error: UserService Read(id) retrieves wrong user");
+                }
             }
-
+            catch (Exception e)
+            {
+                throw e;
+            }
+            
             return user;
         }
+
         public List<User> ReadAll()
         {
-            return _repo.ReadAll().ToList();
+            try
+            {
+                return _repo.ReadAll().ToList();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
+
         public User Update(User user)
         {
-            if (UserExist(user.Id))
+            User updatedUser;
+            try
             {
-                throw new InvalidOperationException("User does not exist");
+                if (!UserExist(user.Id))
+                {
+                    throw new InvalidDataException("User does not exist");
+                }
+                
+                updatedUser = _repo.Update(user);
+
+                if (updatedUser == null)
+                {
+                    throw new InvalidOperationException("Updated User was null");
+                }
+                
+                if (user.Equals(Read(user.Id)))
+                {
+                    throw new InvalidOperationException("User was not Updated");
+                }
             }
-            return _repo.Update(user);
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return updatedUser;
         }
+
         public User Delete(long id)
         {
-            if (UserExist(id))
+            User deletedUser;
+            try
             {
-                throw new InvalidOperationException("User does not exist");
+                deletedUser = _repo.Delete(Read(id));
+                if (deletedUser == null)
+                {
+                    throw new InvalidOperationException("Deleted User was null");
+                }
+        
+                if (UserExist(id))
+                {
+                    throw new InvalidOperationException("User was not deleted");
+                }
             }
-            User user = _repo.Delete(Read(id));
-            if (UserExist(user.Id))
+            catch (Exception e)
             {
-                throw new InvalidDataException("User was not deleted");
+                throw e;
             }
 
-            return user;
-
+            return deletedUser;
         }
 
         public bool UserExist(long id)
@@ -91,48 +151,47 @@ namespace VrBooking.Core.ApplicationServices
             }
         }
 
-        public bool CheckPhoneNumber(User user)
+        public bool isPhoneNumberValid(User user)
         {
-            int n;
             try
             {
-                Int32.TryParse(user.PhoneNumber, out n);
+                int.Parse(user.PhoneNumber);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return true;
+                return false;
             }
             if (string.IsNullOrEmpty(user.PhoneNumber) || user.PhoneNumber.Length != 8)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
 
-        public bool CheckSchoolMail(User user)
+        public bool isEmailValid(User user)
         {
             if (!user.SchoolMail.Contains("@easv365.dk"))
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
 
         }
-        public bool CheckUserId(User user)
+        public bool isIdValid(User user)
         {
-            if (user.Id == null || user.Id <= 0)
+            if (user.Id <= 0)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
     }
