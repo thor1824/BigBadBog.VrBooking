@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using VrBooking.Core.Entity;
@@ -15,6 +16,13 @@ namespace VrBooking.Core.ApplicationServices
         {
             this._repo = repo;
         }
+
+
+        #region C.R.U.D
+
+
+
+        
         public LoginUser Create(LoginUser loginUser)
         {
             LoginUser createdLoginUser;
@@ -33,19 +41,23 @@ namespace VrBooking.Core.ApplicationServices
                 
                 createdLoginUser = _repo.Create(loginUser);
 
+                Console.WriteLine("1");
+
                 if (isIdValid(createdLoginUser))
                 {
-                    throw new InvalidDataException("Id not valid");
+                    throw new InvalidOperationException("Id not valid");
                 }
 
+                Console.WriteLine("2");
                 if (dosContainPassword(createdLoginUser))
                 {
-                    throw new InvalidDataException("LoginUser dos not contain password");
+                    throw new InvalidOperationException("LoginUser dos not contain password");
                 }
 
+                Console.WriteLine("3");
                 if (dosContainSalt(createdLoginUser))
                 {
-                    throw new InvalidDataException("LoginUser dos not contain passwordSalt");
+                    throw new InvalidOperationException("LoginUser dos not contain passwordSalt");
                 }
 
 
@@ -89,16 +101,85 @@ namespace VrBooking.Core.ApplicationServices
 
         public List<LoginUser> ReadAll()
         {
-            return null;
+            
+            return _repo.ReadAll().ToList();
+            
+            
         }
         public LoginUser Update(LoginUser loginUser)
         {
-            return null;
+            LoginUser updateUser;
+            try
+            {
+                if (LoginUserExist(loginUser.Id))
+                {
+                    throw new InvalidDataException("LoginUser does not exist");
+                }
+
+                if (dosContainPassword(loginUser))
+                {
+                    throw new InvalidDataException("LoginUser must have a password");
+                }
+
+                if (isUserNameValid(loginUser))
+                {
+                    throw new InvalidDataException("The new username is not valid. It must be a @easv365.dk mail and cant contain special caterers");
+                }
+                
+                updateUser = _repo.Update(loginUser);
+
+                if (updateUser == null)
+                {
+                    throw new InvalidOperationException("Updated User was null");
+                }
+
+                if (loginUser.Equals(Read(loginUser.Id)))
+                {
+                    throw new InvalidOperationException("User was not Updated");
+                }
+
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return updateUser;
+
         }
         public LoginUser Delete(long id)
         {
-            return null;
+            LoginUser deletedUser;
+            try
+            {
+                deletedUser = _repo.Delete(Read(id));
+
+                if (deletedUser == null)
+                {
+                    throw new InvalidOperationException("User was not found");
+                }
+
+                if (!LoginUserExist(id))
+                {
+                    throw new InvalidOperationException("User was not deleted");
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return deletedUser;
         }
+    
+
+
+
+
+
+        #endregion
 
 
         #region validation 
@@ -108,11 +189,11 @@ namespace VrBooking.Core.ApplicationServices
         {
             if (_repo.Read(id) == null)
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
 
@@ -120,11 +201,11 @@ namespace VrBooking.Core.ApplicationServices
         {
             if (loginUser.Id <= 0)
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
 
             
@@ -135,11 +216,11 @@ namespace VrBooking.Core.ApplicationServices
         {
             if (string.IsNullOrEmpty(user.UserName))
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
 
         }
@@ -165,32 +246,34 @@ namespace VrBooking.Core.ApplicationServices
 
         public bool dosContainPassword(LoginUser user)
         {
-            if (user.PasswordHash == null && user.PasswordHash.Length < 0)
+            if (user.PasswordHash == null || user.PasswordHash.Length <= 0)
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
 
         public bool dosContainSalt(LoginUser user)
         {
-            if (user.PasswordSalt == null && user.PasswordSalt.Length < 0)
+            if (user.PasswordSalt == null || user.PasswordSalt.Length <= 0)
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
 
 
 
         #endregion
+       
     }
+
 }
 //whitspaces tegn array toLower mellem 3 og 20 tegn 
    // salt og password
