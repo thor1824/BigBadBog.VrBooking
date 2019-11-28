@@ -15,6 +15,8 @@ namespace VrBooking.Core.ApplicationServices
         {
             this._repo = repo;
         }
+
+        #region C.R.U.D
         public User Create(User user)
         {
             User createdUser;
@@ -48,8 +50,6 @@ namespace VrBooking.Core.ApplicationServices
             
             return createdUser;
         }
-
-
 
         public User Read(long id)
         {
@@ -138,7 +138,9 @@ namespace VrBooking.Core.ApplicationServices
 
             return deletedUser;
         }
+        #endregion
 
+        #region validation
         public bool UserExist(long id)
         {
             if (_repo.Read(id) == null)
@@ -194,5 +196,6 @@ namespace VrBooking.Core.ApplicationServices
                 return true;
             }
         }
+        #endregion
     }
 }
