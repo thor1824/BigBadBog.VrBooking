@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using VrBooking.Core.ApplicationServices;
 using VrBooking.Core.DomainServices;
+using VrBooking.Core.Entity;
 
 namespace VrBooking.Infrastructure.Repositories
 {
-    internal class BookingRepository : IRepository<BookingOrder>
+    public class BookingRepository : IRepository<BookingOrder>
     {
 
         private readonly VrBookingContext _contex;

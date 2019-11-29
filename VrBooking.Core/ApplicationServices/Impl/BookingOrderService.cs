@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VrBooking.Core.DomainServices;
+using VrBooking.Core.Entity;
 
 namespace VrBooking.Core.ApplicationServices
 {
@@ -70,7 +70,7 @@ namespace VrBooking.Core.ApplicationServices
                     {
                         throw new InvalidOperationException("returns the wrong entity");
                     }
-                } 
+                }
             }
             catch (Exception e)
             {

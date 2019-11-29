@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VrBooking.Core.ApplicationServices;
 using VrBooking.Core.Entity;
 
 namespace VrBooking.Infrastructure
 {
     public class VrBookingContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<UserInfo> Users { get; set; }
 
         public DbSet<Product> Products { get; set; }
 

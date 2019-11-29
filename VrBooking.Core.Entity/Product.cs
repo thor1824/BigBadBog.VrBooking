@@ -1,6 +1,4 @@
-﻿using VrBooking.Core.Entity;
-
-namespace VrBooking.Core.ApplicationServices
+﻿namespace VrBooking.Core.Entity
 {
     public class Product
     {
@@ -10,7 +8,7 @@ namespace VrBooking.Core.ApplicationServices
 
         public string Description { get; set; }
 
-        public Category category { get; set; }
+        public Category Category { get; set; }
 
     }
 }

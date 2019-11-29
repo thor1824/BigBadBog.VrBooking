@@ -3,7 +3,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using VrBooking.Core.ApplicationServices;
 using VrBooking.Core.DomainServices;
 using VrBooking.Core.Entity;
@@ -160,7 +159,7 @@ namespace TestServices.Services
         [DataRow(2, 2, "vr2")]
         [DataRow(3, 3, "vr3")]
         [TestMethod]
-        public void TestCategoryServiceRead(int idSearch, int idFound, string name) 
+        public void TestCategoryServiceRead(int idSearch, int idFound, string name)
         {
             Category found = new Category()
             {
@@ -200,7 +199,7 @@ namespace TestServices.Services
         #region Test ReadAll
 
         [TestMethod]
-        public void TestCategoryServiceReadAll() 
+        public void TestCategoryServiceReadAll()
         {
             _mockRepo.Setup(x => x.ReadAll()).Returns(new List<Category>());
             Assert.IsTrue(_service.ReadAll() != null);
@@ -210,7 +209,7 @@ namespace TestServices.Services
 
         #region Test Update
 
-        [DataRow(1,"Name", "NewName")]
+        [DataRow(1, "Name", "NewName")]
         [DataRow(1, "SameName", "SameName")]
         [TestMethod]
         public void TestCategoryServiceUpdate(int id, string name, string newName)
@@ -361,7 +360,8 @@ namespace TestServices.Services
 
         [DataRow(1, "Name")]
         [TestMethod]
-        public void TestCategoryServiceDelete(long id, string name) {
+        public void TestCategoryServiceDelete(long id, string name)
+        {
             Category category = new Category()
             {
                 Id = id,

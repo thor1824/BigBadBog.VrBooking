@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using VrBooking.Core.ApplicationServices;
 using VrBooking.Core.DomainServices;
+using VrBooking.Core.Entity;
 
 namespace TestServices.Services
 {

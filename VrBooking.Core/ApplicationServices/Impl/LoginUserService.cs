@@ -26,5 +26,10 @@ namespace VrBooking.Core.ApplicationServices
         {
             return null;
         }
+
+        public LoginUser Login(string UserName)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

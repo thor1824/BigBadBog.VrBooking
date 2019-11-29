@@ -8,18 +8,18 @@ using VrBooking.Core.Entity;
 
 namespace VrBooking.Core.ApplicationServices
 {
-    public class UserService : IUserService
+    public class UserInfoService : IUserInfoService
     {
-        private readonly IRepository<User> _repo;
-        public UserService(IRepository<User> repo)
+        private readonly IRepository<UserInfo> _repo;
+        public UserInfoService(IRepository<UserInfo> repo)
         {
             _repo = repo;
         }
 
         #region C.R.U.D
-        public User Create(User user)
+        public UserInfo Create(UserInfo user)
         {
-            User createdUser;
+            UserInfo createdUser;
             try
             {
                 if (string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.LastName))
@@ -50,9 +50,9 @@ namespace VrBooking.Core.ApplicationServices
             return createdUser;
         }
 
-        public User Read(long id)
+        public UserInfo Read(long id)
         {
-            User user;
+            UserInfo user;
             try
             {
                 user = _repo.Read(id);
@@ -73,7 +73,7 @@ namespace VrBooking.Core.ApplicationServices
             return user;
         }
 
-        public List<User> ReadAll()
+        public List<UserInfo> ReadAll()
         {
             try
             {
@@ -85,9 +85,9 @@ namespace VrBooking.Core.ApplicationServices
             }
         }
 
-        public User Update(User user)
+        public UserInfo Update(UserInfo user)
         {
-            User updatedUser;
+            UserInfo updatedUser;
             try
             {
                 if (string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.LastName))
@@ -127,9 +127,9 @@ namespace VrBooking.Core.ApplicationServices
             return updatedUser;
         }
 
-        public User Delete(long id)
+        public UserInfo Delete(long id)
         {
-            User deletedUser;
+            UserInfo deletedUser;
             try
             {
                 deletedUser = _repo.Delete(Read(id));
@@ -165,7 +165,7 @@ namespace VrBooking.Core.ApplicationServices
             }
         }
 
-        public bool IsPhoneNumberValid(User user)
+        public bool IsPhoneNumberValid(UserInfo user)
         {
             try
             {
@@ -185,17 +185,17 @@ namespace VrBooking.Core.ApplicationServices
             }
         }
 
-        public bool IsEmailValid(User user)
+        public bool IsEmailValid(UserInfo user)
         {
             Regex regexItem = new Regex("^([\\w\\.\\-_]+)@easv365.dk*$");
-            if (!string.IsNullOrEmpty(user.SchoolMail))
+            if (!string.IsNullOrEmpty(user.Email))
             {
-                return regexItem.IsMatch(user.SchoolMail);
+                return regexItem.IsMatch(user.Email);
             }
             return false;
 
         }
-        public bool IsIdValid(User user)
+        public bool IsIdValid(UserInfo user)
         {
             if (user.Id <= 0)
             {

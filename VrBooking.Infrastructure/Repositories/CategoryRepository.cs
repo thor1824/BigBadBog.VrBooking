@@ -5,7 +5,7 @@ using VrBooking.Core.Entity;
 
 namespace VrBooking.Infrastructure.Repositories
 {
-    internal class CategoryRepository : IRepository<Category>
+    public class CategoryRepository : IRepository<Category>
     {
         private readonly VrBookingContext _ctx;
 

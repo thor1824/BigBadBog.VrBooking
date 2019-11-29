@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VrBooking.Core.DomainServices;
+using VrBooking.Core.Entity;
 
 namespace VrBooking.Core.ApplicationServices
 {

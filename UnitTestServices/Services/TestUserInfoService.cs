@@ -10,16 +10,16 @@ using VrBooking.Core.Entity;
 namespace TestServices.Services
 {
     [TestClass]
-    public class TestUserService
+    public class TestUserInfoService
     {
-        private Mock<IRepository<User>> _mockRepo;
-        private IUserService _service;
+        private Mock<IRepository<UserInfo>> _mockRepo;
+        private IUserInfoService _service;
 
         [TestInitialize]
         public void Setup()
         {
-            _mockRepo = new Mock<IRepository<User>>();
-            _service = new UserService(_mockRepo.Object);
+            _mockRepo = new Mock<IRepository<UserInfo>>();
+            _service = new UserInfoService(_mockRepo.Object);
         }
 
         #region Tests UsesService.Create(User)
@@ -28,18 +28,18 @@ namespace TestServices.Services
         public void TestUserServiceCreate(string address, string phoneNumber, string email, string firstName, string lastName, long id)
 
         {
-            User userBeforeCreate = new User()
+            UserInfo userBeforeCreate = new UserInfo()
             {
                 Address = address,
                 PhoneNumber = phoneNumber,
-                SchoolMail = email,
+                Email = email,
                 FirstName = firstName,
                 LastName = lastName
             };
-            User userAfterCreate = new User()
+            UserInfo userAfterCreate = new UserInfo()
             {
                 Id = id,
-                SchoolMail = phoneNumber,
+                Email = phoneNumber,
                 PhoneNumber = email,
                 Address = address,
                 FirstName = firstName,
@@ -49,7 +49,7 @@ namespace TestServices.Services
             _mockRepo.Setup(repo => repo.Create(userBeforeCreate)).Returns(userAfterCreate);
 
             Assert.IsTrue(_service.Create(userBeforeCreate) != null);
-            _mockRepo.Verify(x => x.Create(It.IsAny<User>()), Times.Once);
+            _mockRepo.Verify(x => x.Create(It.IsAny<UserInfo>()), Times.Once);
         }
 
         [DataRow("Addresse", "12345678", "email@easv365.dk", null, "LastName", 1)]
@@ -59,18 +59,18 @@ namespace TestServices.Services
         [TestMethod]
         public void TestUserServiceCreateInvalidDataExceptionName(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User userBeforeCreate = new User()
+            UserInfo userBeforeCreate = new UserInfo()
             {
                 Address = address,
                 PhoneNumber = phoneNumber,
-                SchoolMail = email,
+                Email = email,
                 FirstName = firstName,
                 LastName = lastName
             };
-            User userAfterCreate = new User()
+            UserInfo userAfterCreate = new UserInfo()
             {
                 Id = id,
-                SchoolMail = phoneNumber,
+                Email = phoneNumber,
                 PhoneNumber = email,
                 Address = address,
                 FirstName = firstName,
@@ -80,7 +80,7 @@ namespace TestServices.Services
             _mockRepo.Setup(repo => repo.Create(userBeforeCreate)).Returns(userAfterCreate);
 
             Assert.ThrowsException<InvalidDataException>(() => _service.Create(userBeforeCreate));
-            _mockRepo.Verify(x => x.Create(It.IsAny<User>()), Times.Never);
+            _mockRepo.Verify(x => x.Create(It.IsAny<UserInfo>()), Times.Never);
         }
 
         [DataRow("Addresse", "12345678", "email@easv365.dk", "FirstName", "LastName", 0)]
@@ -88,18 +88,18 @@ namespace TestServices.Services
         [TestMethod]
         public void TestUserServiceCreateInvalidOperationExceptionAssignedInvalidID(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User userBeforeCreate = new User()
+            UserInfo userBeforeCreate = new UserInfo()
             {
                 Address = address,
                 PhoneNumber = phoneNumber,
-                SchoolMail = email,
+                Email = email,
                 FirstName = firstName,
                 LastName = lastName
             };
-            User userAfterCreate = new User()
+            UserInfo userAfterCreate = new UserInfo()
             {
                 Id = id,
-                SchoolMail = phoneNumber,
+                Email = phoneNumber,
                 PhoneNumber = email,
                 Address = address,
                 FirstName = firstName,
@@ -109,7 +109,7 @@ namespace TestServices.Services
             _mockRepo.Setup(repo => repo.Create(userBeforeCreate)).Returns(userAfterCreate);
 
             Assert.ThrowsException<InvalidOperationException>(() => _service.Create(userBeforeCreate));
-            _mockRepo.Verify(x => x.Create(It.IsAny<User>()), Times.Once);
+            _mockRepo.Verify(x => x.Create(It.IsAny<UserInfo>()), Times.Once);
         }
 
 
@@ -121,18 +121,18 @@ namespace TestServices.Services
         [TestMethod]
         public void TestUserServiceCreateInvalidDataExceptionEmail(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User userBeforeCreate = new User()
+            UserInfo userBeforeCreate = new UserInfo()
             {
                 Address = address,
                 PhoneNumber = phoneNumber,
-                SchoolMail = email,
+                Email = email,
                 FirstName = firstName,
                 LastName = lastName
             };
-            User userAfterCreate = new User()
+            UserInfo userAfterCreate = new UserInfo()
             {
                 Id = id,
-                SchoolMail = phoneNumber,
+                Email = phoneNumber,
                 PhoneNumber = email,
                 Address = address,
                 FirstName = firstName,
@@ -142,7 +142,7 @@ namespace TestServices.Services
             _mockRepo.Setup(repo => repo.Create(userBeforeCreate)).Returns(userAfterCreate);
 
             Assert.ThrowsException<InvalidDataException>(() => _service.Create(userBeforeCreate));
-            _mockRepo.Verify(x => x.Create(It.IsAny<User>()), Times.Never);
+            _mockRepo.Verify(x => x.Create(It.IsAny<UserInfo>()), Times.Never);
         }
 
         [DataRow("Addresse", null, "email@easv365.dk", "FirstName", "LastName", 1)]
@@ -153,18 +153,18 @@ namespace TestServices.Services
         [TestMethod]
         public void TestUserServiceCreateInvalidDataExceptionPhoneNumber(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User userBeforeCreate = new User()
+            UserInfo userBeforeCreate = new UserInfo()
             {
                 Address = address,
                 PhoneNumber = phoneNumber,
-                SchoolMail = email,
+                Email = email,
                 FirstName = firstName,
                 LastName = lastName
             };
-            User userAfterCreate = new User()
+            UserInfo userAfterCreate = new UserInfo()
             {
                 Id = id,
-                SchoolMail = phoneNumber,
+                Email = phoneNumber,
                 PhoneNumber = email,
                 Address = address,
                 FirstName = firstName,
@@ -174,7 +174,7 @@ namespace TestServices.Services
             _mockRepo.Setup(repo => repo.Create(userBeforeCreate)).Returns(userAfterCreate);
 
             Assert.ThrowsException<InvalidDataException>(() => _service.Create(userBeforeCreate));
-            _mockRepo.Verify(x => x.Create(It.IsAny<User>()), Times.Never);
+            _mockRepo.Verify(x => x.Create(It.IsAny<UserInfo>()), Times.Never);
         }
         #endregion
 
@@ -183,12 +183,12 @@ namespace TestServices.Services
         [TestMethod]
         public void TestUserServiceRead(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User rightUser = new User()
+            UserInfo rightUser = new UserInfo()
             {
                 Id = id,
                 Address = address,
                 PhoneNumber = phoneNumber,
-                SchoolMail = email,
+                Email = email,
                 FirstName = firstName,
                 LastName = lastName
             };
@@ -204,18 +204,18 @@ namespace TestServices.Services
         [TestMethod]
         public void TestUserServiceReadInvalidOperationExceptionReturnsWrongEntity(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User rightUser = new User()
+            UserInfo rightUser = new UserInfo()
             {
                 Address = address,
                 PhoneNumber = phoneNumber,
-                SchoolMail = email,
+                Email = email,
                 FirstName = firstName,
                 LastName = lastName
             };
-            User wrongUser = new User()
+            UserInfo wrongUser = new UserInfo()
             {
                 Id = id++,
-                SchoolMail = phoneNumber + "wrong",
+                Email = phoneNumber + "wrong",
                 PhoneNumber = email + "wrong",
                 Address = address + "wrong",
                 FirstName = firstName + "wrong",
@@ -233,15 +233,15 @@ namespace TestServices.Services
         [TestMethod]
         public void TestUserServiceReadInvalidDataExceptionEntityNotFound(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User rightUser = new User()
+            UserInfo rightUser = new UserInfo()
             {
                 Address = address,
                 PhoneNumber = phoneNumber,
-                SchoolMail = email,
+                Email = email,
                 FirstName = firstName,
                 LastName = lastName
             };
-            User userNull = null;
+            UserInfo userNull = null;
 
             //Testest if UserService.Read(int) Throws exception if entity does nopt exist
             _mockRepo.Setup(repo => repo.Read(id)).Returns(userNull);
@@ -256,12 +256,12 @@ namespace TestServices.Services
         [TestMethod]
         public void TestUserServiceReadAll(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            IEnumerable<User> users = new List<User>()
+            IEnumerable<UserInfo> users = new List<UserInfo>()
             {
-                 new User()
+                 new UserInfo()
                  {
                     Id = id,
-                    SchoolMail = phoneNumber,
+                    Email = phoneNumber,
                     PhoneNumber = email,
                     Address = address,
                     FirstName = firstName,
@@ -281,19 +281,19 @@ namespace TestServices.Services
         [TestMethod]
         public void TestUserServiceUpdate(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User oldUser = new User()
+            UserInfo oldUser = new UserInfo()
             {
                 Id = id,
                 Address = address,
                 PhoneNumber = phoneNumber,
-                SchoolMail = email,
+                Email = email,
                 FirstName = firstName,
                 LastName = lastName
             };
-            User updatedUser = new User()
+            UserInfo updatedUser = new UserInfo()
             {
                 Id = id,
-                SchoolMail = email,
+                Email = email,
                 PhoneNumber = phoneNumber,
                 Address = address,
                 FirstName = firstName + "Updated",
@@ -302,11 +302,11 @@ namespace TestServices.Services
 
             //Testest if UserService.Update(User) works as entended
             _mockRepo.Setup(x => x.Update(updatedUser)).Returns(updatedUser);
-            _mockRepo.Setup(x => x.Read(id)).Returns(new Queue<User>(new[] { oldUser, updatedUser }).Dequeue);
+            _mockRepo.Setup(x => x.Read(id)).Returns(new Queue<UserInfo>(new[] { oldUser, updatedUser }).Dequeue);
 
             Assert.IsFalse(_service.Update(updatedUser).Equals(oldUser));
 
-            _mockRepo.Verify(x => x.Update(It.IsAny<User>()), Times.Once);
+            _mockRepo.Verify(x => x.Update(It.IsAny<UserInfo>()), Times.Once);
             _mockRepo.Verify(x => x.Read(It.IsAny<long>()), Times.Exactly(2));
         }
 
@@ -317,22 +317,22 @@ namespace TestServices.Services
         [TestMethod]
         public void TestUserServiceUpdateInvalidDataExceptionName(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User oldUser = new User()
+            UserInfo oldUser = new UserInfo()
             {
                 Id = id,
-                SchoolMail = phoneNumber + "old",
+                Email = phoneNumber + "old",
                 PhoneNumber = email + "old",
                 Address = address + "old",
                 FirstName = firstName + "old",
                 LastName = lastName + "old"
             };
-            User updatedUser = new User()
+            UserInfo updatedUser = new UserInfo()
             {
 
                 Id = id,
                 Address = address,
                 PhoneNumber = phoneNumber,
-                SchoolMail = email,
+                Email = email,
                 FirstName = firstName,
                 LastName = lastName
             };
@@ -340,7 +340,7 @@ namespace TestServices.Services
             _mockRepo.Setup(repo => repo.Update(updatedUser)).Returns(updatedUser);
 
             Assert.ThrowsException<InvalidDataException>(() => _service.Update(updatedUser));
-            _mockRepo.Verify(x => x.Update(It.IsAny<User>()), Times.Never);
+            _mockRepo.Verify(x => x.Update(It.IsAny<UserInfo>()), Times.Never);
         }
 
         [DataRow("Addresse", "12345678", "email@easv365.dk", "FirstName", "LastName", 0)]
@@ -348,22 +348,22 @@ namespace TestServices.Services
         [TestMethod]
         public void TestUserServiceUpdateInvalidOperationExceptionAssignedInvalidID(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User oldUser = new User()
+            UserInfo oldUser = new UserInfo()
             {
                 Id = id,
-                SchoolMail = phoneNumber + "old",
+                Email = phoneNumber + "old",
                 PhoneNumber = email + "old",
                 Address = address + "old",
                 FirstName = firstName + "old",
                 LastName = lastName + "old"
             };
-            User updatedUser = new User()
+            UserInfo updatedUser = new UserInfo()
             {
 
                 Id = id,
                 Address = address,
                 PhoneNumber = phoneNumber,
-                SchoolMail = email,
+                Email = email,
                 FirstName = firstName,
                 LastName = lastName
             };
@@ -371,7 +371,7 @@ namespace TestServices.Services
             _mockRepo.Setup(repo => repo.Update(updatedUser)).Returns(updatedUser);
 
             Assert.ThrowsException<InvalidDataException>(() => _service.Update(updatedUser));
-            _mockRepo.Verify(x => x.Update(It.IsAny<User>()), Times.Never);
+            _mockRepo.Verify(x => x.Update(It.IsAny<UserInfo>()), Times.Never);
         }
 
         [DataRow("Addresse", "12345678", "emaileasv365.dk", "FirstName", "LastName", 1)]
@@ -381,22 +381,22 @@ namespace TestServices.Services
         [TestMethod]
         public void TestUserServiceUpdateInvalidDataExceptionEmail(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User oldUser = new User()
+            UserInfo oldUser = new UserInfo()
             {
                 Id = id,
-                SchoolMail = email + "old",
+                Email = email + "old",
                 PhoneNumber = phoneNumber + "old",
                 Address = address + "old",
                 FirstName = firstName + "old",
                 LastName = lastName + "old"
             };
-            User updatedUser = new User()
+            UserInfo updatedUser = new UserInfo()
             {
 
                 Id = id,
                 Address = address,
                 PhoneNumber = phoneNumber,
-                SchoolMail = email,
+                Email = email,
                 FirstName = firstName,
                 LastName = lastName
             };
@@ -404,7 +404,7 @@ namespace TestServices.Services
             _mockRepo.Setup(repo => repo.Update(updatedUser)).Returns(updatedUser);
 
             Assert.ThrowsException<InvalidDataException>(() => _service.Update(updatedUser));
-            _mockRepo.Verify(x => x.Update(It.IsAny<User>()), Times.Never);
+            _mockRepo.Verify(x => x.Update(It.IsAny<UserInfo>()), Times.Never);
         }
 
         [DataRow("Addresse", null, "email@easv365.dk", "FirstName", "LastName", 1)]
@@ -415,22 +415,22 @@ namespace TestServices.Services
         [TestMethod]
         public void TestUserServiceUpdateInvalidDataExceptionPhoneNumber(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User oldUser = new User()
+            UserInfo oldUser = new UserInfo()
             {
                 Id = id,
-                SchoolMail = email + "old",
+                Email = email + "old",
                 PhoneNumber = phoneNumber + "old",
                 Address = address + "old",
                 FirstName = firstName + "old",
                 LastName = lastName + "old"
             };
-            User updatedUser = new User()
+            UserInfo updatedUser = new UserInfo()
             {
 
                 Id = id,
                 Address = address,
                 PhoneNumber = phoneNumber,
-                SchoolMail = email,
+                Email = email,
                 FirstName = firstName,
                 LastName = lastName
             };
@@ -438,82 +438,82 @@ namespace TestServices.Services
             _mockRepo.Setup(repo => repo.Update(updatedUser)).Returns(updatedUser);
 
             Assert.ThrowsException<InvalidDataException>(() => _service.Update(updatedUser));
-            _mockRepo.Verify(x => x.Update(It.IsAny<User>()), Times.Never);
+            _mockRepo.Verify(x => x.Update(It.IsAny<UserInfo>()), Times.Never);
         }
 
         [DataRow("Addresse", "12345678", "email@easv365.dk", "FirstName", "LastName", 1)]
         [TestMethod]
         public void TestUserServiceUpdateInvalidDataExceptionID(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User updatedUser = new User()
+            UserInfo updatedUser = new UserInfo()
             {
                 Id = id,
-                SchoolMail = email,
+                Email = email,
                 PhoneNumber = phoneNumber,
                 Address = address,
                 FirstName = firstName + "Updated",
                 LastName = lastName
             };
 
-            User userNull = null;
+            UserInfo userNull = null;
 
             //Testest if UserService.Update(User) throws exception if the user to be updated does not exist
             _mockRepo.Setup(x => x.Update(updatedUser)).Returns(updatedUser);
             _mockRepo.Setup(x => x.Read(id)).Returns(userNull);
 
             Assert.ThrowsException<InvalidDataException>(() => _service.Update(updatedUser));
-            _mockRepo.Verify(x => x.Update(It.IsAny<User>()), Times.Never);
+            _mockRepo.Verify(x => x.Update(It.IsAny<UserInfo>()), Times.Never);
         }
 
         [DataRow("Addresse", "12345678", "email@easv365.dk", "FirstName", "LastName", 1)]
         [TestMethod]
         public void TestUserServiceUpdateInvalidOperationExceptionReturnsNull(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User oldUser = new User()
+            UserInfo oldUser = new UserInfo()
             {
                 Id = id,
                 Address = address,
                 PhoneNumber = phoneNumber,
-                SchoolMail = email,
+                Email = email,
                 FirstName = firstName,
                 LastName = lastName
             };
-            User updatedUser = new User()
+            UserInfo updatedUser = new UserInfo()
             {
                 Id = id,
-                SchoolMail = email,
+                Email = email,
                 PhoneNumber = phoneNumber,
                 Address = address,
                 FirstName = firstName + "Updated",
                 LastName = lastName
             };
-            User userNull = null;
+            UserInfo userNull = null;
 
             //Testest if UserService.Update(User) throws exception if not works as entended
             _mockRepo.Setup(x => x.Update(updatedUser)).Returns(userNull);
-            _mockRepo.Setup(x => x.Read(id)).Returns(new Queue<User>(new[] { oldUser, updatedUser }).Dequeue);
+            _mockRepo.Setup(x => x.Read(id)).Returns(new Queue<UserInfo>(new[] { oldUser, updatedUser }).Dequeue);
 
             Assert.ThrowsException<InvalidOperationException>(() => _service.Update(updatedUser));
-            _mockRepo.Verify(x => x.Update(It.IsAny<User>()), Times.Once);
+            _mockRepo.Verify(x => x.Update(It.IsAny<UserInfo>()), Times.Once);
         }
 
         [DataRow("Addresse", "12345678", "email@easv365.dk", "FirstName", "LastName", 1)]
         [TestMethod]
         public void TestUserServiceUpdateInvalidOperationExceptionDoesNotUpdate(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User oldUser = new User()
+            UserInfo oldUser = new UserInfo()
             {
                 Id = id,
                 Address = address,
                 PhoneNumber = phoneNumber,
-                SchoolMail = email,
+                Email = email,
                 FirstName = firstName,
                 LastName = lastName
             };
-            User updatedUser = new User()
+            UserInfo updatedUser = new UserInfo()
             {
                 Id = id,
-                SchoolMail = email,
+                Email = email,
                 PhoneNumber = phoneNumber,
                 Address = address,
                 FirstName = firstName + "Updated",
@@ -522,10 +522,10 @@ namespace TestServices.Services
 
             //Testest if UserService.Update(User) throws exception if not works as entended
             _mockRepo.Setup(x => x.Update(updatedUser)).Returns(updatedUser);
-            _mockRepo.Setup(x => x.Read(id)).Returns(new Queue<User>(new[] { oldUser, oldUser }).Dequeue);
+            _mockRepo.Setup(x => x.Read(id)).Returns(new Queue<UserInfo>(new[] { oldUser, oldUser }).Dequeue);
 
             Assert.ThrowsException<InvalidOperationException>(() => _service.Update(updatedUser));
-            _mockRepo.Verify(x => x.Update(It.IsAny<User>()), Times.Once);
+            _mockRepo.Verify(x => x.Update(It.IsAny<UserInfo>()), Times.Once);
         }
         #endregion
 
@@ -534,10 +534,10 @@ namespace TestServices.Services
         [TestMethod]
         public void TestUserServiceDelete(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User user = new User
+            UserInfo user = new UserInfo
             {
                 Id = id,
-                SchoolMail = phoneNumber,
+                Email = phoneNumber,
                 PhoneNumber = email,
                 Address = address,
                 FirstName = firstName,
@@ -547,7 +547,7 @@ namespace TestServices.Services
 
             // testest if UserService.Delete(id) works as entended
             _mockRepo.Setup(x => x.Delete(user)).Returns(user);
-            _mockRepo.Setup(x => x.Read(user.Id)).Returns(new Queue<User>(new[] { user, null }).Dequeue);
+            _mockRepo.Setup(x => x.Read(user.Id)).Returns(new Queue<UserInfo>(new[] { user, null }).Dequeue);
 
             Assert.IsTrue(_service.Delete(user.Id).Equals(user));
 
@@ -559,34 +559,34 @@ namespace TestServices.Services
         [TestMethod]
         public void TestUserServiceDeleteInvalidOperationExceptionReturnsNull(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User user = new User
+            UserInfo user = new UserInfo
             {
                 Id = id,
-                SchoolMail = phoneNumber,
+                Email = phoneNumber,
                 PhoneNumber = email,
                 Address = address,
                 FirstName = firstName,
                 LastName = lastName
             };
 
-            User userNull = null;
+            UserInfo userNull = null;
 
             // testest if UserService.Delete(id) thorws exception if return null
             _mockRepo.Setup(x => x.Delete(user)).Returns(userNull);
-            _mockRepo.Setup(x => x.Read(user.Id)).Returns(new Queue<User>(new[] { user, null }).Dequeue);
+            _mockRepo.Setup(x => x.Read(user.Id)).Returns(new Queue<UserInfo>(new[] { user, null }).Dequeue);
 
             Assert.ThrowsException<InvalidOperationException>(() => _service.Delete(user.Id));
-            _mockRepo.Verify(x => x.Delete(It.IsAny<User>()), Times.Once);
+            _mockRepo.Verify(x => x.Delete(It.IsAny<UserInfo>()), Times.Once);
         }
 
         [DataRow("Addresse", "12345678", "email@easv365.dk", "FirstName", "LastName", 1)]
         [TestMethod]
         public void TestUserServiceDeleteInvalidOperationExceptionDoesNotDelete(string address, string phoneNumber, string email, string firstName, string lastName, long id)
         {
-            User user = new User
+            UserInfo user = new UserInfo
             {
                 Id = id,
-                SchoolMail = phoneNumber,
+                Email = phoneNumber,
                 PhoneNumber = email,
                 Address = address,
                 FirstName = firstName,
@@ -595,10 +595,10 @@ namespace TestServices.Services
 
             // testest if UserService.Delete(id) throws exception when not working as entended
             _mockRepo.Setup(x => x.Delete(user)).Returns(user);
-            _mockRepo.Setup(x => x.Read(user.Id)).Returns(new Queue<User>(new[] { user, user }).Dequeue);
+            _mockRepo.Setup(x => x.Read(user.Id)).Returns(new Queue<UserInfo>(new[] { user, user }).Dequeue);
 
             Assert.ThrowsException<InvalidOperationException>(() => _service.Delete(user.Id));
-            _mockRepo.Verify(x => x.Delete(It.IsAny<User>()), Times.Once);
+            _mockRepo.Verify(x => x.Delete(It.IsAny<UserInfo>()), Times.Once);
         }
 
         #endregion

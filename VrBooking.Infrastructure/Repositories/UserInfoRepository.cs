@@ -6,40 +6,40 @@ using VrBooking.Core.Entity;
 
 namespace VrBooking.Infrastructure.Repositories
 {
-    public class UserRepository : IRepository<User>
+    public class UserInfoRepository : IRepository<UserInfo>
     {
         private readonly VrBookingContext _contex;
-        public UserRepository(VrBookingContext contex)
+        public UserInfoRepository(VrBookingContext contex)
         {
             _contex = contex;
         }
-        public User Create(User entity)
+        public UserInfo Create(UserInfo entity)
         {
-            _contex.Add<User>(entity);
+            _contex.Add<UserInfo>(entity);
             _contex.SaveChanges();
             throw new NotImplementedException();
         }
 
-        public User Read(long id)
+        public UserInfo Read(long id)
         {
             return _contex.Users.FirstOrDefault(user => user.Id == id);
         }
 
-        public IEnumerable<User> ReadAll()
+        public IEnumerable<UserInfo> ReadAll()
         {
             return _contex.Users;
         }
 
-        public User Update(User entity)
+        public UserInfo Update(UserInfo entity)
         {
-            User user = _contex.Update<User>(entity).Entity;
+            UserInfo user = _contex.Update<UserInfo>(entity).Entity;
             _contex.SaveChanges();
             return user;
         }
 
-        public User Delete(User entity)
+        public UserInfo Delete(UserInfo entity)
         {
-            User entityRemoved = _contex.Remove<User>(entity).Entity;
+            UserInfo entityRemoved = _contex.Remove<UserInfo>(entity).Entity;
             _contex.SaveChanges();
             return entityRemoved;
         }

@@ -32,7 +32,7 @@ namespace TestServices.Services
         {
             DateTime start = DateTime.Now.AddHours(addStart);
             DateTime end = DateTime.Now.AddHours(addEnd);
-            User user = new User();
+            UserInfo user = new UserInfo();
             Product product = new Product()
             {
                 Id = prodid
@@ -84,7 +84,7 @@ namespace TestServices.Services
         {
             DateTime start = DateTime.Now.AddHours(addStart);
             DateTime end = DateTime.Now.AddHours(addEnd);
-            User user = new User();
+            UserInfo user = new UserInfo();
             Product product = new Product();
 
             IEnumerable<BookingOrder> bookingOrders = new List<BookingOrder>()
@@ -128,7 +128,7 @@ namespace TestServices.Services
         {
             DateTime start = DateTime.Now.AddHours(1);
             DateTime end = DateTime.Now.AddHours(3);
-            User user = new User();
+            UserInfo user = new UserInfo();
             Product product = new Product();
 
             BookingOrder boBeforeCreated = new BookingOrder()
@@ -161,7 +161,7 @@ namespace TestServices.Services
         {
             DateTime start = DateTime.Now.AddHours(1);
             DateTime end = DateTime.Now.AddHours(3);
-            User user = isUserNull ? null : new User();
+            UserInfo user = isUserNull ? null : new UserInfo();
             Product product = isProductNull ? null : new Product();
 
             BookingOrder boBeforeCreated = isBookingNull ? null : new BookingOrder()
@@ -194,7 +194,7 @@ namespace TestServices.Services
         {
             DateTime start = DateTime.Now.AddHours(addStart);
             DateTime end = DateTime.Now.AddHours(addEnd);
-            User user = new User();
+            UserInfo user = new UserInfo();
             Product product = new Product();
 
             BookingOrder boBeforeCreated = new BookingOrder()
@@ -234,7 +234,7 @@ namespace TestServices.Services
         {
             DateTime start = DateTime.Now.AddHours(addStart);
             DateTime end = DateTime.Now.AddHours(addEnd);
-            User user = new User();
+            UserInfo user = new UserInfo();
             Product product = new Product();
 
             IEnumerable<BookingOrder> users = new List<BookingOrder>
@@ -266,14 +266,14 @@ namespace TestServices.Services
         public void TestBookingOrderServiceUpdate(long id, int oldStart, int oldEnd, int newStart, int newEnd, int prod1Id, int prod2Id)
         {
 
-            User user = new User();
+            UserInfo user = new UserInfo();
             Product product = new Product() { Id = prod1Id };
             Product product2 = new Product() { Id = prod2Id };
             DateTime cal = DateTime.Now;
-            DateTime start = new DateTime(cal.Year, cal.Month, cal.Day+1, 10 + oldStart, 0, 0);
-            DateTime end = new DateTime(cal.Year, cal.Month, cal.Day+1, 10 + oldEnd, 0, 0);
-            DateTime start2 = new DateTime(cal.Year, cal.Month, cal.Day+1, 10 + newStart, 0, 0);
-            DateTime end2 = new DateTime(cal.Year, cal.Month, cal.Day+1, 10 + newEnd, 0, 0);
+            DateTime start = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + oldStart, 0, 0);
+            DateTime end = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + oldEnd, 0, 0);
+            DateTime start2 = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + newStart, 0, 0);
+            DateTime end2 = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + newEnd, 0, 0);
 
             BookingOrder oldBooking = new BookingOrder()
             {
@@ -323,15 +323,15 @@ namespace TestServices.Services
         public void TestBookingOrderServiceUpdateInvalidDataExceptionTimeCollision(long id, int oldStart, int oldEnd, int newStart, int newEnd, int bStart3, int bEnd3, int prod1Id)
         {
 
-            User user = new User();
+            UserInfo user = new UserInfo();
             Product product = new Product() { Id = prod1Id };
             DateTime cal = DateTime.Now;
-            DateTime start = new DateTime(cal.Year, cal.Month, cal.Day+1, 10 + oldStart, 0, 0);
-            DateTime end = new DateTime(cal.Year, cal.Month, cal.Day+1, 10 + oldEnd, 0, 0);
-            DateTime start2 = new DateTime(cal.Year, cal.Month, cal.Day+1, 10 + newStart, 0, 0);
-            DateTime end2 = new DateTime(cal.Year, cal.Month, cal.Day+1, 10 + newEnd, 0, 0);
-            DateTime start3 = new DateTime(cal.Year, cal.Month, cal.Day+1, 10 + bStart3, 0, 0);
-            DateTime end3 = new DateTime(cal.Year, cal.Month, cal.Day+1, 10 + bEnd3, 0, 0);
+            DateTime start = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + oldStart, 0, 0);
+            DateTime end = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + oldEnd, 0, 0);
+            DateTime start2 = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + newStart, 0, 0);
+            DateTime end2 = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + newEnd, 0, 0);
+            DateTime start3 = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + bStart3, 0, 0);
+            DateTime end3 = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + bEnd3, 0, 0);
 
             BookingOrder oldBooking = new BookingOrder()
             {
@@ -380,7 +380,7 @@ namespace TestServices.Services
         {
             DateTime start = DateTime.Now.AddHours(1);
             DateTime end = DateTime.Now.AddHours(3);
-            User user = isUserNull ? null : new User();
+            UserInfo user = isUserNull ? null : new UserInfo();
             Product product = isProductNull ? null : new Product();
 
             BookingOrder boBeforeCreated = isBookingNull ? null : new BookingOrder()
@@ -413,7 +413,7 @@ namespace TestServices.Services
         {
             DateTime start = DateTime.Now.AddHours(addStart);
             DateTime end = DateTime.Now.AddHours(addEnd);
-            User user = new User();
+            UserInfo user = new UserInfo();
             Product product = new Product();
 
             BookingOrder boBeforeCreated = new BookingOrder()
@@ -448,7 +448,7 @@ namespace TestServices.Services
         {
             DateTime start = DateTime.Now.AddHours(addStart);
             DateTime end = DateTime.Now.AddHours(addEnd);
-            User user = new User();
+            UserInfo user = new UserInfo();
             Product product = new Product();
 
             BookingOrder boBeforeCreated = new BookingOrder()
@@ -459,7 +459,7 @@ namespace TestServices.Services
                 StartTimeOfBooking = start,
                 EndTimeOfBooking = end
             };
-            _mockRepo.Setup(x => x.Read(id)).Returns(new Queue<BookingOrder> (new[] { boBeforeCreated, null }).Dequeue);
+            _mockRepo.Setup(x => x.Read(id)).Returns(new Queue<BookingOrder>(new[] { boBeforeCreated, null }).Dequeue);
             _mockRepo.Setup(x => x.Delete(boBeforeCreated)).Returns(boBeforeCreated);
             Assert.IsTrue(_service.Delete(id) != null);
             _mockRepo.Verify(x => x.Delete(It.IsAny<BookingOrder>()), Times.Once);
@@ -471,7 +471,7 @@ namespace TestServices.Services
         {
             DateTime start = DateTime.Now.AddHours(addStart);
             DateTime end = DateTime.Now.AddHours(addEnd);
-            User user = new User();
+            UserInfo user = new UserInfo();
             Product product = new Product();
 
             BookingOrder boBeforeCreated = new BookingOrder()
@@ -494,7 +494,7 @@ namespace TestServices.Services
         {
             DateTime start = DateTime.Now.AddHours(addStart);
             DateTime end = DateTime.Now.AddHours(addEnd);
-            User user = new User();
+            UserInfo user = new UserInfo();
             Product product = new Product();
 
             BookingOrder boBeforeCreated = new BookingOrder()
