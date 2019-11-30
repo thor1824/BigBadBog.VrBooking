@@ -6,7 +6,7 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
     {
         public void Seed(VrBookingContext ctx)
         {
-            throw new System.NotImplementedException();
+            ctx.Database.EnsureCreated();
         }
     }
 }

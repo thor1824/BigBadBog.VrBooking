@@ -80,8 +80,6 @@ namespace VrBooking.RestApi.WebApp
 
             services.AddSingleton<IAuthenticationHelper>(new AuthenticationHelper(secretBytes));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
             services.AddMvc().AddJsonOptions(
                 options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
@@ -93,14 +91,38 @@ namespace VrBooking.RestApi.WebApp
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    // Initialize the database
+                    var services = scope.ServiceProvider;
+                    VrBookingContext ctx = services.GetService<VrBookingContext>();
+                    IDbSeeder seeder = services.GetService<IDbSeeder>();
+                    seeder.Seed(ctx);
+                    app.UseDeveloperExceptionPage();
+                }
+
             }
             else
             {
-                app.UseHsts();
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    // Initialize the database
+                    var services = scope.ServiceProvider;
+                    VrBookingContext ctx = services.GetService<VrBookingContext>();
+                    IDbSeeder seeder = services.GetService<IDbSeeder>();
+                    seeder.Seed(ctx);
+                    app.UseHsts();
+                }
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
+
+            // Enable CORS (must precede app.UseMvc()):
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+            // Use authentication
+            app.UseAuthentication();
+
             app.UseMvc();
         }
     }

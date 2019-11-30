@@ -15,5 +15,7 @@ namespace VrBooking.Infrastructure
 
         public DbSet<Category> Categories { get; set; }
 
+        public VrBookingContext(DbContextOptions<VrBookingContext> opt) : base(opt) { }
+
     }
 }

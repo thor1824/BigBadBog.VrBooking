@@ -40,9 +40,10 @@ namespace VrBooking.Infrastructure.Repositories
 
         public Category Update(Category entity)
         {
-            Category updatedCategory = _ctx.Update<Category>(entity).Entity;
+            Category oldCategory = _ctx.Categories.First(category => category.Id == entity.Id);
+            oldCategory.Name = entity.Name;
             _ctx.SaveChanges();
-            return updatedCategory;
+            return oldCategory;
         }
     }
 }

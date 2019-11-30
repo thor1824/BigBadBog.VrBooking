@@ -33,7 +33,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
         }
 
         // GET: api/User/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public ActionResult<UserInfo> Get(int id)
         {
             try

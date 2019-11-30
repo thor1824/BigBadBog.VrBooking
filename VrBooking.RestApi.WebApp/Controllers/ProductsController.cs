@@ -10,11 +10,14 @@ namespace VrBooking.RestApi.WebApp.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductService _service;
+        private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
 
-        public ProductsController(IProductService service)
+
+        public ProductsController(IProductService productService, ICategoryService categoryService)
         {
-            _service=service;
+            _productService = productService;
+            _categoryService = categoryService;
         }
 
         // GET: api/Product
@@ -23,7 +26,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
         {
             try
             {
-                return Ok(_service.ReadAll());
+                return Ok(_productService.ReadAll());
             }
             catch (Exception e)
             {
@@ -33,12 +36,12 @@ namespace VrBooking.RestApi.WebApp.Controllers
         }
 
         // GET: api/Product/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public ActionResult<Product> Get(int id)
         {
             try
             {
-                return Ok(_service.Read(id));
+                return Ok(_productService.Read(id));
             }
             catch (Exception e)
             {
@@ -52,7 +55,11 @@ namespace VrBooking.RestApi.WebApp.Controllers
         {
             try
             {
-                Product product = _service.Create(value);
+                if (value.Category != null)
+                {
+                    value.Category =_categoryService.Read(value.Category.Id);
+                }
+                Product product = _productService.Create(value);
                 return Created("" + product.Id, product);
             }
             catch (Exception e)
@@ -62,12 +69,16 @@ namespace VrBooking.RestApi.WebApp.Controllers
         }
 
         // PUT: api/Product/5
-        [HttpPut()]
+        [HttpPut]
         public ActionResult Put([FromBody] Product value)
         {
             try
             {
-                _service.Update(value);
+                if (value.Category != null)
+                {
+                    value.Category =_categoryService.Read(value.Category.Id);
+                }
+                _productService.Update(value);
                 return NoContent();
             }
             catch (Exception e)
@@ -82,7 +93,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
         {
             try
             {
-                _service.Delete(id);
+                _productService.Delete(id);
                 return NoContent();
             }
             catch (Exception e)

@@ -34,7 +34,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
         }
 
         // GET: api/Category/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public ActionResult<Category> Get(int id)
         {
             try

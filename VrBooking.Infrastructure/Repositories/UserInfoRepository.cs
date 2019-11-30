@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using VrBooking.Core.DomainServices;
@@ -32,9 +33,14 @@ namespace VrBooking.Infrastructure.Repositories
 
         public UserInfo Update(UserInfo entity)
         {
-            UserInfo user = _contex.Update<UserInfo>(entity).Entity;
+            UserInfo oldUserInfo = _contex.Users.First(userInfo => userInfo.Id == entity.Id);
+            oldUserInfo.FirstName = entity.FirstName;
+            oldUserInfo.LastName = entity.LastName;
+            oldUserInfo.Email = entity.Email;
+            oldUserInfo.PhoneNumber = entity.PhoneNumber;
+            oldUserInfo.Address = entity.Address;
             _contex.SaveChanges();
-            return user;
+            return oldUserInfo;
         }
 
         public UserInfo Delete(UserInfo entity)

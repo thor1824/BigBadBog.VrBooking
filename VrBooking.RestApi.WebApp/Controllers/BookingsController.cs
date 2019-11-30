@@ -10,12 +10,17 @@ namespace VrBooking.RestApi.WebApp.Controllers
     [ApiController]
     public class BookingsController : ControllerBase
     {
-        private readonly IBookingOrderService _service;
+        private readonly IBookingOrderService _bookingService;
+        private readonly IProductService _productService;
+        private readonly IUserInfoService _UserInfoservice;
 
-        public BookingsController(IBookingOrderService service)
+        public BookingsController(IBookingOrderService bookingService, IProductService productService, IUserInfoService userInfoservice)
         {
-            _service = service;
+            _bookingService = bookingService;
+            _productService = productService;
+            _UserInfoservice = userInfoservice;
         }
+
 
 
         // GET: api/Booking
@@ -24,7 +29,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
         {
             try
             {
-                return Ok(_service.ReadAll());
+                return Ok(_bookingService.ReadAll());
             }
             catch (Exception e)
             {
@@ -34,12 +39,12 @@ namespace VrBooking.RestApi.WebApp.Controllers
         }
 
         // GET: api/Booking/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public ActionResult<BookingOrder> Get(int id)
         {
             try
             {
-                return Ok(_service.Read(id));
+                return Ok(_bookingService.Read(id));
             }
             catch (Exception e)
             {
@@ -53,7 +58,15 @@ namespace VrBooking.RestApi.WebApp.Controllers
         {
             try
             {
-                BookingOrder booking = _service.Create(value);
+                if (value.Product != null)
+                {
+                    value.Product = _productService.Read(value.Product.Id);
+                }
+                if (value.User != null)
+                {
+                    value.User = _UserInfoservice.Read(value.Id);
+                }
+                BookingOrder booking = _bookingService.Create(value);
                 return Created("" + booking.Id, booking);
             }
             catch (Exception e)
@@ -68,7 +81,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
         {
             try
             {
-                _service.Update(value);
+                _bookingService.Update(value);
                 return NoContent();
             }
             catch (Exception e)
@@ -83,7 +96,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
         {
             try
             {
-                _service.Delete(id);
+                _bookingService.Delete(id);
                 return NoContent();
             }
             catch (Exception e)
