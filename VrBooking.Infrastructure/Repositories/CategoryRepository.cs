@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using VrBooking.Core.DomainServices;
 using VrBooking.Core.Entity;
@@ -35,7 +36,7 @@ namespace VrBooking.Infrastructure.Repositories
 
         public IEnumerable<Category> ReadAll()
         {
-            return _ctx.Categories;
+            return _ctx.Categories.Include(cat => cat.Products);
         }
 
         public Category Update(Category entity)

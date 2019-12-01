@@ -8,6 +8,8 @@
 
         public string Description { get; set; }
 
+        public string ImgUrl { get; set; }
+
         public Category Category { get; set; }
 
     }
