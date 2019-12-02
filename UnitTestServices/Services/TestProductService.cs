@@ -301,8 +301,6 @@ namespace TestServices.Services
                 Id = 2
             };
 
-            Product productNull = null;
-
             // test if ProductService.Delete(id) works as entended
             _mockRepo.Setup(x => x.Delete(product)).Returns(product);
             _mockRepo.Setup(x => x.Read(product.Id)).Returns(new Queue<Product>(new[] { product, productNull }).Dequeue);
