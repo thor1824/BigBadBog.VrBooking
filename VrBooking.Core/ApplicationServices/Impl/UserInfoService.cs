@@ -2,43 +2,42 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+using System.Text.RegularExpressions;
+using VrBooking.Core.DomainServices;
 using VrBooking.Core.Entity;
 
 namespace VrBooking.Core.ApplicationServices
 {
-    public class UserService : IUserService
+    public class UserInfoService : IUserInfoService
     {
-        private IRepository<User> _repo;
-        public UserService(IRepository<User> repo)
+        private readonly IRepository<UserInfo> _repo;
+        public UserInfoService(IRepository<UserInfo> repo)
         {
-            this._repo = repo;
+            _repo = repo;
         }
 
         #region C.R.U.D
-        public User Create(User user)
+        public UserInfo Create(UserInfo user)
         {
-            User createdUser;
+            UserInfo createdUser;
             try
             {
-                if (string.IsNullOrEmpty(user.Name))
+                if (string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.LastName))
                 {
                     throw new InvalidDataException("user must contain a name");
                 }
-                if (!isEmailValid(user))
+                if (!IsEmailValid(user))
                 {
                     throw new InvalidDataException("the email must be an easv365 mail");
                 }
-
-                if (!isPhoneNumberValid(user))
+                if (!IsPhoneNumberValid(user))
                 {
                     throw new InvalidDataException("Phone Number must be 8 digits");
                 }
 
                 createdUser = _repo.Create(user);
 
-                if (!isIdValid(createdUser))
+                if (!IsIdValid(createdUser))
                 {
                     throw new InvalidOperationException("ID not valid");
                 }
@@ -47,13 +46,13 @@ namespace VrBooking.Core.ApplicationServices
             {
                 throw e;
             }
-            
+
             return createdUser;
         }
 
-        public User Read(long id)
+        public UserInfo Read(long id)
         {
-            User user;
+            UserInfo user;
             try
             {
                 user = _repo.Read(id);
@@ -70,11 +69,11 @@ namespace VrBooking.Core.ApplicationServices
             {
                 throw e;
             }
-            
+
             return user;
         }
 
-        public List<User> ReadAll()
+        public List<UserInfo> ReadAll()
         {
             try
             {
@@ -86,24 +85,37 @@ namespace VrBooking.Core.ApplicationServices
             }
         }
 
-        public User Update(User user)
+        public UserInfo Update(UserInfo user)
         {
-            User updatedUser;
+            UserInfo updatedUser;
             try
             {
+                if (string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.LastName))
+                {
+                    throw new InvalidDataException("user must contain a name");
+                }
                 if (!UserExist(user.Id))
                 {
                     throw new InvalidDataException("User does not exist");
                 }
-                
+                if (!IsEmailValid(user))
+                {
+                    throw new InvalidDataException("the email must be an easv365 mail");
+                }
+
+                if (!IsPhoneNumberValid(user))
+                {
+                    throw new InvalidDataException("Phone Number must be 8 digits");
+                }
+
                 updatedUser = _repo.Update(user);
 
                 if (updatedUser == null)
                 {
                     throw new InvalidOperationException("Updated User was null");
                 }
-                
-                if (user.Equals(Read(user.Id)))
+
+                if (!user.Equals(Read(user.Id)))
                 {
                     throw new InvalidOperationException("User was not Updated");
                 }
@@ -115,9 +127,9 @@ namespace VrBooking.Core.ApplicationServices
             return updatedUser;
         }
 
-        public User Delete(long id)
+        public UserInfo Delete(long id)
         {
-            User deletedUser;
+            UserInfo deletedUser;
             try
             {
                 deletedUser = _repo.Delete(Read(id));
@@ -125,7 +137,7 @@ namespace VrBooking.Core.ApplicationServices
                 {
                     throw new InvalidOperationException("Deleted User was null");
                 }
-        
+
                 if (UserExist(id))
                 {
                     throw new InvalidOperationException("User was not deleted");
@@ -153,7 +165,7 @@ namespace VrBooking.Core.ApplicationServices
             }
         }
 
-        public bool isPhoneNumberValid(User user)
+        public bool IsPhoneNumberValid(UserInfo user)
         {
             try
             {
@@ -173,19 +185,17 @@ namespace VrBooking.Core.ApplicationServices
             }
         }
 
-        public bool isEmailValid(User user)
+        public bool IsEmailValid(UserInfo user)
         {
-            if (!user.SchoolMail.Contains("@easv365.dk"))
+            Regex regexItem = new Regex("^([\\w\\.\\-_]+)@easv365.dk*$");
+            if (!string.IsNullOrEmpty(user.Email))
             {
-                return false;
+                return regexItem.IsMatch(user.Email);
             }
-            else
-            {
-                return true;
-            }
+            return false;
 
         }
-        public bool isIdValid(User user)
+        public bool IsIdValid(UserInfo user)
         {
             if (user.Id <= 0)
             {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using VrBooking.Core.Entity;
 
 namespace VrBooking.Core.ApplicationServices
 {

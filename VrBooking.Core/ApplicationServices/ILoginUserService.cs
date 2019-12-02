@@ -10,5 +10,6 @@ namespace VrBooking.Core.ApplicationServices
         LoginUser Read(long id);
         List<LoginUser> ReadAll();
         LoginUser Update(LoginUser loginUser);
+        LoginUser Login(string UserName);
     }
 }

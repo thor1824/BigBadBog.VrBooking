@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using VrBooking.Core.Entity;
 
 namespace VrBooking.Core.ApplicationServices
@@ -27,6 +25,11 @@ namespace VrBooking.Core.ApplicationServices
         public LoginUser Delete(long id)
         {
             return null;
+        }
+
+        public LoginUser Login(string UserName)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
