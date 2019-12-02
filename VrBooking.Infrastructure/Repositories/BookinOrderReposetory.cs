@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using VrBooking.Core;
 using VrBooking.Core.ApplicationServices;
 
 namespace VrBooking.Infrastructure.Repositories
 {
-    class BookinOrderReposetory: IRepository<BookingOrder>
+    class BookinOrderReposetory : IRepository<BookingOrder>
     {
         private IBookingOrderService _service;
 

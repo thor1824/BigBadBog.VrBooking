@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using VrBooking.Core;
 using VrBooking.Core.ApplicationServices;
 using VrBooking.Core.Entity;
@@ -25,15 +23,32 @@ namespace TestServices.Services
         }
 
         [TestMethod]
-        public void TestLoginUserCreate()
+        public void TestLoginUserServiceCreate()
         {
+            List<LoginUser> readAll = new List<LoginUser>()
+            {
+
+                new LoginUser()
+                {
+
+                    Activated = true,
+                    Admin = false,
+                    UserName = "Jens335@easv365.dk",
+                    PasswordHash = new byte[] {1, 2, 3},
+                    PasswordSalt = new byte[] {1, 2, 3},
+                    Id = 99
+                    
+
+                }
+            };
+
             LoginUser userBeforeCreate = new LoginUser()
             {
                 Activated = true,
                 Admin = false,
                 UserName = "perPerson335@easv365.dk",
-                PasswordHash = new byte[] {1, 2, 3},
-                PasswordSalt = new byte[] {1, 2, 3}
+                PasswordHash = new byte[] { 1, 2, 3 },
+                PasswordSalt = new byte[] { 1, 2, 3 }
             };
 
             LoginUser userAfterCreate = new LoginUser()
@@ -46,6 +61,7 @@ namespace TestServices.Services
                 Id = 1
             };
 
+            _mockRepo.Setup(repo => repo.ReadAll()).Returns(readAll);
             _mockRepo.Setup(repo => repo.Create(userBeforeCreate)).Returns(userAfterCreate);
             Assert.IsTrue(_service.Create(userBeforeCreate) != null);
             _mockRepo.Verify(x => x.Create(It.IsAny<LoginUser>()), Times.Once);
@@ -57,13 +73,13 @@ namespace TestServices.Services
 
 
 
-        [DataRow("ole", new byte[] {1, 2, 3}, new byte[] {1, 2, 3}, false, false)]
-        [DataRow("ole€&@easv365.dk", new byte[] {1, 2, 3}, new byte[] {1, 2, 3}, false, false)]
-        [DataRow("", new byte[] {1, 2, 3}, new byte[] {1, 2, 3}, false, false)]
-        [DataRow("ole@e365.dk", new byte[] {1, 2, 3}, new byte[] {1, 2, 3}, false, false)]
-        [DataRow(null, new byte[] {1, 2, 3}, new byte[] {1, 2, 3}, false, false)]
+        [DataRow("ole", new byte[] { 1, 2, 3 }, new byte[] { 1, 2, 3 }, false, false)]
+        [DataRow("ole€&@easv365.dk", new byte[] { 1, 2, 3 }, new byte[] { 1, 2, 3 }, false, false)]
+        [DataRow("", new byte[] { 1, 2, 3 }, new byte[] { 1, 2, 3 }, false, false)]
+        [DataRow("ole@e365.dk", new byte[] { 1, 2, 3 }, new byte[] { 1, 2, 3 }, false, false)]
+        [DataRow(null, new byte[] { 1, 2, 3 }, new byte[] { 1, 2, 3 }, false, false)]
         [TestMethod]
-        public void TestForUsername(string userName, byte[] passwordHash, byte[] passWordSalt, bool admin,
+        public void TestLoginUserServiceCreateInvalidDataExceptionName(string userName, byte[] passwordHash, byte[] passwordSalt, bool admin,
             bool activated)
         {
             LoginUser user = new LoginUser()
@@ -72,7 +88,7 @@ namespace TestServices.Services
                 Activated = activated,
                 Admin = admin,
                 PasswordHash = passwordHash,
-                PasswordSalt = passwordHash
+                PasswordSalt = passwordSalt
             };
 
             LoginUser user2 = new LoginUser()
@@ -81,7 +97,7 @@ namespace TestServices.Services
                 Activated = activated,
                 Admin = admin,
                 PasswordHash = passwordHash,
-                PasswordSalt = passwordHash,
+                PasswordSalt = passwordSalt,
                 Id = 1
             };
 
@@ -92,10 +108,10 @@ namespace TestServices.Services
 
         }
 
-        [DataRow("perPerson335@easv365.dk", new byte[] { }, new byte[] {1, 2, 3}, false, false)]
-        [DataRow("perPerson335@easv365.dk", null, new byte[] {1, 2, 3}, false, false)]
+        [DataRow("perPerson335@easv365.dk", new byte[] { }, new byte[] { 1, 2, 3 }, false, false)]
+        [DataRow("perPerson335@easv365.dk", null, new byte[] { 1, 2, 3 }, false, false)]
         [TestMethod]
-        public void TesLoginUserHasPassWord(string userName, byte[] passwordHash, byte[] passWordSalt, bool admin,
+        public void TestLoginUserServiceCreateInvalidDataExceptionPassword(string userName, byte[] passwordHash, byte[] passWordSalt, bool admin,
             bool activated)
         {
             LoginUser user = new LoginUser()
@@ -118,15 +134,15 @@ namespace TestServices.Services
 
             _mockRepo.Setup(repo => repo.Create(user)).Returns(user2);
 
-            Assert.ThrowsException<InvalidOperationException>(() => _service.Create(user));
-            _mockRepo.Verify(x => x.Create(It.IsAny<LoginUser>()), Times.Once);
+            Assert.ThrowsException<InvalidDataException>(() => _service.Create(user));
+            _mockRepo.Verify(x => x.Create(It.IsAny<LoginUser>()), Times.Never);
 
         }
 
-        [DataRow("perPerson335@easv365.dk", new byte[] {1, 2, 3}, new byte[] { }, false, false)]
-        [DataRow("perPerson335@easv365.dk", new byte[] {1, 2, 3}, null, false, false)]
+        [DataRow("perPerson335@easv365.dk", new byte[] { 1, 2, 3 }, new byte[] { }, false, false)]
+        [DataRow("perPerson335@easv365.dk", new byte[] { 1, 2, 3 }, null, false, false)]
         [TestMethod]
-        public void TesLoginUserSalt(string userName, byte[] passwordHash, byte[] passWordSalt, bool admin,
+        public void TestLoginUserServiceCreateInvalidDataExceptionSalt(string userName, byte[] passwordHash, byte[] passWordSalt, bool admin,
             bool activated)
         {
             LoginUser user = new LoginUser()
@@ -149,16 +165,16 @@ namespace TestServices.Services
 
             _mockRepo.Setup(repo => repo.Create(user)).Returns(user2);
 
-            Assert.ThrowsException<InvalidOperationException>(() => _service.Create(user));
-            _mockRepo.Verify(x => x.Create(It.IsAny<LoginUser>()), Times.Once);
+            Assert.ThrowsException<InvalidDataException>(() => _service.Create(user));
+            _mockRepo.Verify(x => x.Create(It.IsAny<LoginUser>()), Times.Never);
 
         }
 
 
-        [DataRow("perPerson335@easv365.dk", new byte[] {1, 2, 3}, new byte[] {1, 2, 3}, false, false, null)]
-        [DataRow("perPerson335@easv365.dk", new byte[] {1, 2, 3}, new byte[] {1, 2, 3}, false, false, -1)]
+        [DataRow("perPerson335@easv365.dk", new byte[] { 1, 2, 3 }, new byte[] { 1, 2, 3 }, false, false, null)]
+        [DataRow("perPerson335@easv365.dk", new byte[] { 1, 2, 3 }, new byte[] { 1, 2, 3 }, false, false, -1)]
         [TestMethod]
-        public void TestLoginUserIsVdIalid(string userName, byte[] passwordHash, byte[] passWordSalt, bool admin, bool activated, long id)
+        public void TestLoginUserServiceCreateInvalidOperationExceptionId(string userName, byte[] passwordHash, byte[] passWordSalt, bool admin, bool activated, long id)
         {
             LoginUser user = new LoginUser()
             {
@@ -180,14 +196,14 @@ namespace TestServices.Services
 
             _mockRepo.Setup(repo => repo.Create(user)).Returns(user2);
 
-            Assert.ThrowsException<InvalidOperationException>(() => _service.Create(user));
-            _mockRepo.Verify(x => x.Create(It.IsAny<LoginUser>()), Times.Once);
+            Assert.ThrowsException<InvalidDataException>(() => _service.Create(user));
+            _mockRepo.Verify(x => x.Create(It.IsAny<LoginUser>()), Times.Never);
 
         }
 
 
         [TestMethod]
-        public void TesetLogimUserServiceCreateNameIsInUseInvalidtData()
+        public void TestLoginUserServiceCreateInvalidDataExceptionUserName()
         {
             List<LoginUser> readAll = new List<LoginUser>()
             {
@@ -198,18 +214,20 @@ namespace TestServices.Services
                     Admin = false,
                     UserName = "perPerson335@easv365.dk",
                     PasswordHash = new byte[] {1, 2, 3},
-                    PasswordSalt = new byte[] {1, 2, 3}
-                } 
+                    PasswordSalt = new byte[] {1, 2, 3},
+                    
+                }
 
             };
 
-            LoginUser userToCreate= new LoginUser()
+            LoginUser userToCreate = new LoginUser()
             {
                 Activated = true,
                 Admin = false,
                 UserName = "perPerson335@easv365.dk",
                 PasswordHash = new byte[] { 1, 2, 3 },
-                PasswordSalt = new byte[] { 1, 2, 3 }
+                PasswordSalt = new byte[] { 1, 2, 3 },
+                Id = 1
             };
 
             _mockRepo.Setup(repo => repo.ReadAll()).Returns(readAll);
@@ -222,7 +240,7 @@ namespace TestServices.Services
 
         #region TestLoginUserService.Read(Id)
 
-        public void TestLoginUserRead()
+        public void TestLoginUserServiceReadInvalidOperationException()
         {
             long id = 1;
             LoginUser user = new LoginUser()
@@ -230,8 +248,8 @@ namespace TestServices.Services
                 Activated = true,
                 Admin = false,
                 UserName = "perPerson335@easv365.dk",
-                PasswordHash = new byte[] {1, 2, 3},
-                PasswordSalt = new byte[] {1, 2, 3},
+                PasswordHash = new byte[] { 1, 2, 3 },
+                PasswordSalt = new byte[] { 1, 2, 3 },
                 Id = 1
             };
 
@@ -240,8 +258,8 @@ namespace TestServices.Services
                 Activated = true,
                 Admin = false,
                 UserName = "perPerson335@easv365.dk",
-                PasswordHash = new byte[] {1, 2, 3},
-                PasswordSalt = new byte[] {1, 2, 3},
+                PasswordHash = new byte[] { 1, 2, 3 },
+                PasswordSalt = new byte[] { 1, 2, 3 },
                 Id = 2
             };
             LoginUser userNull = null;
@@ -296,9 +314,6 @@ namespace TestServices.Services
 
             _service.ReadAll();
             _mockRepo.Verify(x => x.ReadAll(), Times.Once);
-
-
-
         }
 
 
@@ -310,9 +325,9 @@ namespace TestServices.Services
 
 
         [TestMethod]
-        public void TestLoginUserUpdate()
+        public void TestLoginUserServiceUpdate()
         {
-            LoginUser user =  new LoginUser()
+            LoginUser user = new LoginUser()
             {
                 Activated = true,
                 Admin = false,
@@ -332,7 +347,7 @@ namespace TestServices.Services
                 Id = 1
             };
 
-            
+
             _mockRepo.Setup(x => x.Update(user)).Returns(userUpdatedIfo);
             _mockRepo.Setup(x => x.Read(user.Id)).Returns(new Queue<LoginUser>(new[] { user, userUpdatedIfo }).Dequeue);
 
@@ -342,7 +357,7 @@ namespace TestServices.Services
             _mockRepo.Verify(x => x.Read(user.Id), Times.Exactly(2));
         }
 
-        [DataRow("perPerson335@easv365.dk", new byte[] {}, new byte[] { 1, 2, 3 }, false, false)]
+        [DataRow("perPerson335@easv365.dk", new byte[] { }, new byte[] { 1, 2, 3 }, false, false)]
         [DataRow("perPerson335@easv365.dk", null, new byte[] { 1, 2, 3 }, false, false)]
         [DataRow("ole", new byte[] { 1, 2, 3 }, new byte[] { 1, 2, 3 }, false, false)]
         [DataRow("ole€&@easv365.dk", new byte[] { 1, 2, 3 }, new byte[] { 1, 2, 3 }, false, false)]
@@ -350,7 +365,7 @@ namespace TestServices.Services
         [DataRow("ole@e365.dk", new byte[] { 1, 2, 3 }, new byte[] { 1, 2, 3 }, false, false)]
         [DataRow(null, new byte[] { 1, 2, 3 }, new byte[] { 1, 2, 3 }, false, false)]
         [TestMethod]
-        public void TestInvalidDataOnUpdate(string userName, byte[] passwordHash, byte[] passWordSalt, bool admin, bool activated)
+        public void TestLoginUserServiceUpdateInvalidDataException(string userName, byte[] passwordHash, byte[] passWordSalt, bool admin, bool activated)
         {
             LoginUser updateUser = new LoginUser()
             {
@@ -367,7 +382,7 @@ namespace TestServices.Services
         }
 
         [TestMethod]
-        public void TestUpdateInvalidOperationUserNotUpdated()
+        public void TestLoginUserServiceUpdateInvalidOperationUserNotUpdated()
         {
             LoginUser user = new LoginUser()
             {
@@ -397,7 +412,7 @@ namespace TestServices.Services
         }
 
         [TestMethod]
-        public void TestUpdateInvalidOperationUserIsNull()
+        public void TestLoginUserServiceUpdateInvalidOperationUserIsNull()
         {
             LoginUser user = new LoginUser()
             {
@@ -417,14 +432,14 @@ namespace TestServices.Services
             Assert.ThrowsException<InvalidDataException>(() => _service.Update(user));
             _mockRepo.Verify(x => x.Update(It.IsAny<LoginUser>()), Times.Never);
         }
-    
+
 
         #endregion
 
         #region TestLoginUserService.Delete(LoginUser)
 
         [TestMethod]
-        public void TestDeleteInvalidOperationLoginUserIsNull()
+        public void TestLoginUserServiceDeleteInvalidOperationLoginUserIsNull()
         {
             LoginUser user = new LoginUser()
             {
@@ -446,7 +461,7 @@ namespace TestServices.Services
 
 
         [TestMethod]
-        public void TestDeleteInvalidOperationLoginUserNotDeleted()
+        public void TestLoginUserServiceDeleteInvalidOperationLoginUserNotDeleted()
         {
             LoginUser user = new LoginUser()
             {

@@ -1,8 +1,8 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using VrBooking.Core;
 using VrBooking.Core.ApplicationServices;
 using VrBooking.Core.Entity;
@@ -372,11 +372,9 @@ namespace UnitTest.Services
                 Id = 2
             };
 
-            User userNull = null;
-
             // testest if UserService.Delete(id) works as entended
             mockRepo.Setup(x => x.Delete(user)).Returns(user);
-            mockRepo.Setup(x => x.Read(user.Id)).Returns(new Queue<User>(new[] { user, null }).Dequeue);
+            mockRepo.Setup(x => x.Read(user.Id)).Returns(new Queue<User>(new[] { user, null}).Dequeue);
 
             Assert.IsTrue(service.Delete(user.Id).Equals(user));
 
@@ -417,8 +415,6 @@ namespace UnitTest.Services
                 Name = "fh",
                 Id = 2
             };
-
-            User userNull = null;
 
             // testest if UserService.Delete(id) throws exception when not working as entended
             mockRepo.Setup(x => x.Delete(user)).Returns(user);

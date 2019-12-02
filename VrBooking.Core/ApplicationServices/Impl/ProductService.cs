@@ -14,7 +14,7 @@ namespace VrBooking.Core.ApplicationServices
         }
 
         #region C.R.U.D.
-        
+
         public Product Create(Product product)
         {
             Product createdProduct;
@@ -24,7 +24,7 @@ namespace VrBooking.Core.ApplicationServices
                 {
                     throw new InvalidDataException("product must contain a name");
                 }
-                
+
                 if (string.IsNullOrEmpty(product.Description))
                 {
                     throw new InvalidDataException("the product must have a description");
@@ -41,7 +41,7 @@ namespace VrBooking.Core.ApplicationServices
             {
                 throw e;
             }
-            
+
             return createdProduct;
         }
 
@@ -64,7 +64,7 @@ namespace VrBooking.Core.ApplicationServices
             {
                 throw e;
             }
-            
+
             return product;
         }
         public List<Product> ReadAll()
@@ -78,7 +78,7 @@ namespace VrBooking.Core.ApplicationServices
                 throw e;
             }
         }
-        
+
         public Product Update(Product product)
         {
             Product updatedProduct;
@@ -88,14 +88,14 @@ namespace VrBooking.Core.ApplicationServices
                 {
                     throw new InvalidDataException("Product does not exist");
                 }
-                
+
                 updatedProduct = _repo.Update(product);
 
                 if (updatedProduct == null)
                 {
                     throw new InvalidOperationException("Updated Product was null");
                 }
-                
+
                 if (product.Equals(Read(product.Id)))
                 {
                     throw new InvalidOperationException("Product was not Updated");
@@ -107,7 +107,7 @@ namespace VrBooking.Core.ApplicationServices
             }
             return updatedProduct;
         }
-        
+
         public Product Delete(long id)
         {
             Product deletedProduct;
@@ -118,7 +118,7 @@ namespace VrBooking.Core.ApplicationServices
                 {
                     throw new InvalidOperationException("Deleted Product was null");
                 }
-        
+
                 if (ProductExist(id))
                 {
                     throw new InvalidOperationException("Product was not deleted");
@@ -131,9 +131,9 @@ namespace VrBooking.Core.ApplicationServices
 
             return deletedProduct;
         }
-        
+
         #endregion
-        
+
         #region validation
         public bool isIdValid(Product product)
         {
@@ -146,7 +146,7 @@ namespace VrBooking.Core.ApplicationServices
                 return true;
             }
         }
-        
+
         public bool ProductExist(long id)
         {
             if (_repo.Read(id) == null)

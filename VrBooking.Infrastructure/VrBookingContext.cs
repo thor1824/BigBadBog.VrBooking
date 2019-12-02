@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using VrBooking.Core.ApplicationServices;
 using VrBooking.Core.Entity;
 
 namespace VrBooking.Infrastructure
 {
-    public class VrBookingContext: DbContext
+    public class VrBookingContext : DbContext
     {
         public DbSet<User> users { get; set; }
 

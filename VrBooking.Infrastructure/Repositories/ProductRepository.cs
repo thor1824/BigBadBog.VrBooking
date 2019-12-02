@@ -1,19 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using VrBooking.Core;
 using VrBooking.Core.ApplicationServices;
 
 namespace VrBooking.Infrastructure.Repositories
 {
-    public class ProductRepository: IRepository<Product>
+    public class ProductRepository : IRepository<Product>
     {
         private readonly VrBookingContext _contex;
         private ProductRepository(VrBookingContext contex)
         {
             _contex = contex;
         }
-        
+
         public Product Create(Product entity)
         {
             Product createdProduct = _contex.products.Add(entity).Entity;

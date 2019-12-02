@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
 using VrBooking.Core;
 using VrBooking.Core.Entity;
 
 namespace VrBooking.Infrastructure.Repositories
 {
-    public class UserRepository: IRepository<User>
+    public class UserRepository : IRepository<User>
     {
         private readonly VrBookingContext _contex;
         public UserRepository(VrBookingContext contex)

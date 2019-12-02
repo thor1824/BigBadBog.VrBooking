@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using VrBooking.Core.Entity;
 
 namespace VrBooking.Core.ApplicationServices
@@ -47,7 +45,7 @@ namespace VrBooking.Core.ApplicationServices
             {
                 throw e;
             }
-            
+
             return createdUser;
         }
 
@@ -70,7 +68,7 @@ namespace VrBooking.Core.ApplicationServices
             {
                 throw e;
             }
-            
+
             return user;
         }
 
@@ -95,14 +93,14 @@ namespace VrBooking.Core.ApplicationServices
                 {
                     throw new InvalidDataException("User does not exist");
                 }
-                
+
                 updatedUser = _repo.Update(user);
 
                 if (updatedUser == null)
                 {
                     throw new InvalidOperationException("Updated User was null");
                 }
-                
+
                 if (user.Equals(Read(user.Id)))
                 {
                     throw new InvalidOperationException("User was not Updated");
@@ -125,7 +123,7 @@ namespace VrBooking.Core.ApplicationServices
                 {
                     throw new InvalidOperationException("Deleted User was null");
                 }
-        
+
                 if (UserExist(id))
                 {
                     throw new InvalidOperationException("User was not deleted");

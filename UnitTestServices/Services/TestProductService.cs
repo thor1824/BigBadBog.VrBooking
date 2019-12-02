@@ -1,8 +1,8 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using VrBooking.Core;
 using VrBooking.Core.ApplicationServices;
 
@@ -22,7 +22,7 @@ namespace TestServices.Services
         }
 
         #region Test for productService.create
-        
+
         [TestMethod]
         public void TestProductServiceCreate()
         {
@@ -44,7 +44,7 @@ namespace TestServices.Services
             Assert.IsTrue(service.Create(prodBeforeCreate) != null);
             mockRepo.Verify(x => x.Create(It.IsAny<Product>()), Times.Once);
         }
-        
+
         [DataRow(null, "IT IS GOOD")]
         [DataRow("", "IT IS GOOD")]
         [TestMethod]
@@ -55,7 +55,7 @@ namespace TestServices.Services
                 Description = description,
                 Name = name
             };
-                
+
             Product productAfterCreate = new Product
             {
                 Id = 1,
@@ -68,7 +68,7 @@ namespace TestServices.Services
             Assert.ThrowsException<InvalidDataException>(() => service.Create(productBeforeCreate));
             mockRepo.Verify(x => x.Create(It.IsAny<Product>()), Times.Never);
         }
-        
+
         [DataRow("Oculus Rift", "YIIBII", null)]
         [DataRow("Oculus Rift", "YIIBII", -2)]
         [TestMethod]
@@ -92,7 +92,7 @@ namespace TestServices.Services
             Assert.ThrowsException<InvalidOperationException>(() => service.Create(productBeforeCreate));
             mockRepo.Verify(x => x.Create(It.IsAny<Product>()), Times.Once);
         }
-        
+
         [DataRow("Oculus GO", null, 2)]
         [DataRow("Oculus GO", "", 1)]
         [TestMethod]
@@ -118,11 +118,11 @@ namespace TestServices.Services
             Assert.ThrowsException<InvalidDataException>(() => service.Create(productAfterCreate));
             mockRepo.Verify(x => x.Create(It.IsAny<Product>()), Times.Never);
         }
-        
+
         #endregion
 
         #region Tests for ProductService.read
-        
+
         [TestMethod]
         public void TestProductServiceRead()
         {
@@ -160,7 +160,7 @@ namespace TestServices.Services
 
             Assert.ThrowsException<InvalidDataException>(() => service.Read(id));
         }
-        
+
         #endregion
 
         #region Tests for ProductService.readall
@@ -196,7 +196,7 @@ namespace TestServices.Services
                 Name = "Oculus GO",
                 Description = "Come on facebook"
             };
-            
+
             Product updatedProduct = new Product()
             {
                 Id = 1,
@@ -213,7 +213,7 @@ namespace TestServices.Services
             mockRepo.Verify(x => x.Update(product), Times.Once);
             mockRepo.Verify(x => x.Read(product.Id), Times.Exactly(2));
         }
-        
+
         [TestMethod]
         public void TestProductServiceUpdateInvalidDataExceptionID()
         {
@@ -223,7 +223,7 @@ namespace TestServices.Services
                 Name = "Google cardboard",
                 Description = "ITS ShiT"
             };
-            
+
             Product productNull = null;
 
             //Test if ProductService.Update(Product) throws exception if the product to be updated does not exist
@@ -233,7 +233,7 @@ namespace TestServices.Services
             Assert.ThrowsException<InvalidDataException>(() => service.Update(product));
             mockRepo.Verify(x => x.Update(It.IsAny<Product>()), Times.Never);
         }
-        
+
         [TestMethod]
         public void TestProductServiceUpdateInvalidOperationExceptionReturnsNull()
         {
@@ -243,7 +243,7 @@ namespace TestServices.Services
                 Name = "VR Headset",
                 Description = "ITS SHIT"
             };
-            
+
             Product updatedProduct = new Product()
             {
                 Id = 1,
@@ -260,7 +260,7 @@ namespace TestServices.Services
             Assert.ThrowsException<InvalidOperationException>(() => service.Update(product));
             mockRepo.Verify(x => x.Update(It.IsAny<Product>()), Times.Once);
         }
-        
+
         [TestMethod]
         public void TestProductServiceUpdateInvalidOperationExceptionDoesNotUpdate()
         {
@@ -270,7 +270,7 @@ namespace TestServices.Services
                 Name = "Beat Saber",
                 Description = "Facebook buys beat saber"
             };
-            
+
             Product updatedProduct = new Product()
             {
                 Id = 1,
@@ -299,8 +299,6 @@ namespace TestServices.Services
                 Name = "fh",
                 Id = 2
             };
-
-            Product productNull = null;
 
             // test if ProductService.Delete(id) works as entended
             mockRepo.Setup(x => x.Delete(product)).Returns(product);

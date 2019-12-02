@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using VrBooking.Core;
 using VrBooking.Core.Entity;
 
 namespace VrBooking.Infrastructure.Repositories
 {
-    class LoginUserRepository: IRepository<LoginUser>
+    class LoginUserRepository : IRepository<LoginUser>
     {
         private VrBookingContext _context;
 

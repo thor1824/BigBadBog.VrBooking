@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Xml.Serialization;
 using VrBooking.Core.Entity;
 
 namespace VrBooking.Core.ApplicationServices
 {
     public class LoginUserService : ILoginUserService
     {
-        private IRepository<LoginUser> _repo;
+        private readonly IRepository<LoginUser> _repo;
 
         public LoginUserService(IRepository<LoginUser> repo)
         {
@@ -23,56 +21,45 @@ namespace VrBooking.Core.ApplicationServices
 
 
 
-        
+
         public LoginUser Create(LoginUser loginUser)
         {
             LoginUser createdLoginUser;
             try
             {
-                if (isUserNameNull(loginUser))
+                if (IsUserNameNull(loginUser))
                 {
                     throw new InvalidDataException("user must contain a name");
                 }
 
-                if (isUserNameValid(loginUser))
+                if (IsUserNameValid(loginUser))
                 {
                     throw new InvalidDataException("username contains special caterers");
                 }
 
-                if (isUsernameInUse(loginUser))
+                if (IsUsernameInUse(loginUser))
                 {
                     throw new InvalidDataException(" this email is in use");
                 }
+                if (DoesContainPassword(loginUser))
+                {
+                    throw new InvalidDataException("LoginUser dos not contain password");
+                }
+                if (DoesContainSalt(loginUser))
+                {
+                    throw new InvalidDataException("LoginUser dos not contain passwordSalt");
+                }
 
-                
                 createdLoginUser = _repo.Create(loginUser);
 
-                Console.WriteLine("1");
-
-                if (isIdValid(createdLoginUser))
+                if (IsIdValid(createdLoginUser))
                 {
                     throw new InvalidOperationException("Id not valid");
                 }
-
-                Console.WriteLine("2");
-                if (dosContainPassword(createdLoginUser))
-                {
-                    throw new InvalidOperationException("LoginUser dos not contain password");
-                }
-
-                Console.WriteLine("3");
-                if (dosContainSalt(createdLoginUser))
-                {
-                    throw new InvalidOperationException("LoginUser dos not contain passwordSalt");
-                }
-
-
-
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                throw e;
             }
 
 
@@ -85,21 +72,20 @@ namespace VrBooking.Core.ApplicationServices
             try
             {
                 user = _repo.Read(id);
+
+                if (user == null)
                 {
-                    if (user == null)
-                    {
-                        throw new InvalidDataException("User does not exist");
-                    }
-                    if (user.Id != id)
-                    {
-                        throw new InvalidOperationException("Error: LoginUserService Read(id) retrieves wrong loginUser");
-                    }
+                    throw new InvalidDataException("User does not exist");
                 }
+                if (user.Id != id)
+                {
+                    throw new InvalidOperationException("Error: LoginUserService Read(id) retrieves wrong loginUser");
+                }
+
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                throw e;
             }
 
             return user;
@@ -107,10 +93,16 @@ namespace VrBooking.Core.ApplicationServices
 
         public List<LoginUser> ReadAll()
         {
-            
-            return _repo.ReadAll().ToList();
-            
-            
+            List<LoginUser> loginUsers;
+            try
+            {
+                loginUsers = _repo.ReadAll().ToList();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return loginUsers;
         }
         public LoginUser Update(LoginUser loginUser)
         {
@@ -122,16 +114,24 @@ namespace VrBooking.Core.ApplicationServices
                     throw new InvalidDataException("LoginUser does not exist");
                 }
 
-                if (dosContainPassword(loginUser))
+                if (DoesContainPassword(loginUser))
                 {
                     throw new InvalidDataException("LoginUser must have a password");
                 }
 
-                if (isUserNameValid(loginUser))
+                if (IsUserNameValid(loginUser))
                 {
                     throw new InvalidDataException("The new username is not valid. It must be a @easv365.dk mail and cant contain special caterers");
                 }
-                
+                if (DoesContainPassword(loginUser))
+                {
+                    throw new InvalidDataException("LoginUser dos not contain password");
+                }
+                if (DoesContainSalt(loginUser))
+                {
+                    throw new InvalidDataException("LoginUser dos not contain passwordSalt");
+                }
+
                 updateUser = _repo.Update(loginUser);
 
                 if (updateUser == null)
@@ -139,7 +139,7 @@ namespace VrBooking.Core.ApplicationServices
                     throw new InvalidOperationException("Updated User was null");
                 }
 
-                if (loginUser.Equals(Read(loginUser.Id)))
+                if (IsUserUpdated(loginUser))
                 {
                     throw new InvalidOperationException("User was not Updated");
                 }
@@ -148,8 +148,7 @@ namespace VrBooking.Core.ApplicationServices
 
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                throw e;
             }
 
             return updateUser;
@@ -179,17 +178,11 @@ namespace VrBooking.Core.ApplicationServices
 
             return deletedUser;
         }
-    
-
-
-
-
 
         #endregion
 
 
         #region validation 
-
 
         public bool LoginUserExist(long id)
         {
@@ -203,7 +196,7 @@ namespace VrBooking.Core.ApplicationServices
             }
         }
 
-        public bool isIdValid(LoginUser loginUser)
+        public bool IsIdValid(LoginUser loginUser)
         {
             if (loginUser.Id <= 0)
             {
@@ -214,11 +207,11 @@ namespace VrBooking.Core.ApplicationServices
                 return false;
             }
 
-            
+
 
         }
 
-        public bool isUserNameNull(LoginUser user)
+        public bool IsUserNameNull(LoginUser user)
         {
             if (string.IsNullOrEmpty(user.UserName))
             {
@@ -231,7 +224,7 @@ namespace VrBooking.Core.ApplicationServices
 
         }
 
-        public bool isUserNameValid(LoginUser user)
+        public bool IsUserNameValid(LoginUser user)
         {
 
             var regexItem = new Regex("^([\\w\\.\\-_]+)@easv365.dk*$");
@@ -247,26 +240,17 @@ namespace VrBooking.Core.ApplicationServices
             }
         }
 
-        public bool isUsernameInUse(LoginUser user)
+        public bool IsUsernameInUse(LoginUser user)
         {
-            foreach (LoginUser x in ReadAll())
-            {
-                if (x.UserName == user.UserName)
-                {
-                    return true;
-                }
-               
-            }
-            
-            
-            return false;
-            
-
+            LoginUser loginUser =
+                _repo.ReadAll().Where(x => x.UserName.ToLower().Equals(user.UserName.ToLower())).FirstOrDefault();
+            Console.WriteLine(loginUser);
+            return loginUser != null;
         }
 
-    
 
-        public bool dosContainPassword(LoginUser user)
+
+        public bool DoesContainPassword(LoginUser user)
         {
             if (user.PasswordHash == null || user.PasswordHash.Length <= 0)
             {
@@ -278,7 +262,7 @@ namespace VrBooking.Core.ApplicationServices
             }
         }
 
-        public bool dosContainSalt(LoginUser user)
+        public bool DoesContainSalt(LoginUser user)
         {
             if (user.PasswordSalt == null || user.PasswordSalt.Length <= 0)
             {
@@ -290,12 +274,28 @@ namespace VrBooking.Core.ApplicationServices
             }
         }
 
+        public bool IsUserUpdated(LoginUser user)
+        {
+            LoginUser userToUpdate = Read(user.Id);
+
+
+            if (user.Activated != userToUpdate.Activated
+                || user.Admin != userToUpdate.Admin
+                || user.Id != userToUpdate.Id
+                || user.UserName != userToUpdate.UserName
+                || user.PasswordHash != userToUpdate.PasswordHash
+                || user.PasswordSalt != userToUpdate.PasswordSalt)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
 
 
         #endregion
-       
+
     }
 
 }
-//whitspaces tegn array toLower mellem 3 og 20 tegn 
-   // salt og password
