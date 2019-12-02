@@ -18,9 +18,10 @@ namespace VrBooking.Infrastructure.Repositories
         }
         public User Create(User entity)
         {
-            _contex.users.Add(entity);
+            User userToCreate = _contex.users.Add(entity).Entity;
             _contex.SaveChanges();
-            throw new NotImplementedException();
+            return userToCreate;
+
         }
 
         public User Read(long id)
@@ -35,11 +36,20 @@ namespace VrBooking.Infrastructure.Repositories
 
         public User Update(User entity)
         {
+            User oldeUser = Read(entity.Id);
+
+            oldeUser.Address = entity.Address;
+            oldeUser.Name = entity.Name;
+            oldeUser.PhoneNumber = entity.PhoneNumber;
+            oldeUser.SchoolMail = entity.SchoolMail;
+
+            /*
             if (entity != null)
             {
                 _contex.Attach(entity).State = EntityState.Modified;
             }
 
+            */
             _contex.SaveChanges();
             return entity;
         }

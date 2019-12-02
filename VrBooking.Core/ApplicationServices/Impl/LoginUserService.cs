@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml.Serialization;
 using VrBooking.Core.Entity;
 
 namespace VrBooking.Core.ApplicationServices
@@ -36,6 +37,11 @@ namespace VrBooking.Core.ApplicationServices
                 if (isUserNameValid(loginUser))
                 {
                     throw new InvalidDataException("username contains special caterers");
+                }
+
+                if (isUsernameInUse(loginUser))
+                {
+                    throw new InvalidDataException(" this email is in use");
                 }
 
                 
@@ -241,6 +247,22 @@ namespace VrBooking.Core.ApplicationServices
             }
         }
 
+        public bool isUsernameInUse(LoginUser user)
+        {
+            foreach (LoginUser x in ReadAll())
+            {
+                if (x.UserName == user.UserName)
+                {
+                    return true;
+                }
+               
+            }
+            
+            
+            return false;
+            
+
+        }
 
     
 

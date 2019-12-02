@@ -12,5 +12,9 @@ namespace VrBooking.Infrastructure
 
         public DbSet<Product> products { get; set; }
 
+        public DbSet<LoginUser> loginUsers { get; set; }
+
+        public DbSet<BookingOrder> BookingOrders { get; set; }
+
     }
 }
