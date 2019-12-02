@@ -303,7 +303,7 @@ namespace TestServices.Services
 
             // test if ProductService.Delete(id) works as entended
             _mockRepo.Setup(x => x.Delete(product)).Returns(product);
-            _mockRepo.Setup(x => x.Read(product.Id)).Returns(new Queue<Product>(new[] { product, productNull }).Dequeue);
+            _mockRepo.Setup(x => x.Read(product.Id)).Returns(new Queue<Product>(new[] { product, null }).Dequeue);
 
             Assert.IsTrue(_service.Delete(product.Id).Equals(product));
 

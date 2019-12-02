@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using VrBooking.Core.DomainServices;
 using VrBooking.Core.Entity;
 
 namespace VrBooking.Core.ApplicationServices
@@ -213,7 +214,7 @@ namespace VrBooking.Core.ApplicationServices
 
         public bool IsUserNameNull(LoginUser user)
         {
-            if (string.IsNullOrEmpty(user.UserName))
+            if (string.IsNullOrEmpty(user.UserInfo.Email))
             {
                 return true;
             }
@@ -230,7 +231,7 @@ namespace VrBooking.Core.ApplicationServices
             var regexItem = new Regex("^([\\w\\.\\-_]+)@easv365.dk*$");
 
 
-            if (regexItem.IsMatch(user.UserName))
+            if (regexItem.IsMatch(user.UserInfo.Email))
             {
                 return false;
             }
@@ -243,7 +244,7 @@ namespace VrBooking.Core.ApplicationServices
         public bool IsUsernameInUse(LoginUser user)
         {
             LoginUser loginUser =
-                _repo.ReadAll().Where(x => x.UserName.ToLower().Equals(user.UserName.ToLower())).FirstOrDefault();
+                _repo.ReadAll().Where(x => x.UserInfo.Email.ToLower().Equals(user.UserInfo.Email.ToLower())).FirstOrDefault();
             Console.WriteLine(loginUser);
             return loginUser != null;
         }
@@ -279,10 +280,10 @@ namespace VrBooking.Core.ApplicationServices
             LoginUser userToUpdate = Read(user.Id);
 
 
-            if (user.Activated != userToUpdate.Activated
-                || user.Admin != userToUpdate.Admin
+            if (user.IsActivated != userToUpdate.IsActivated
+                || user.IsAdmin != userToUpdate.IsAdmin
                 || user.Id != userToUpdate.Id
-                || user.UserName != userToUpdate.UserName
+                || user.UserInfo != userToUpdate.UserInfo
                 || user.PasswordHash != userToUpdate.PasswordHash
                 || user.PasswordSalt != userToUpdate.PasswordSalt)
             {
@@ -290,6 +291,11 @@ namespace VrBooking.Core.ApplicationServices
             }
 
             return true;
+        }
+
+        public LoginUser Login(string UserName)
+        {
+            throw new NotImplementedException();
         }
 
 
