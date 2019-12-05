@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VrBooking.Core\VrBooking.Core.csproj" />
+    <ProjectReference Include="..\VrBooking.Infrastructure\VrBooking.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

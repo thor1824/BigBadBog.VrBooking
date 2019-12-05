@@ -20,7 +20,6 @@ namespace VrBooking.RestApi.WebApp.Controllers
             _authHelper = authHelper;
         }
 
-
         [HttpPost]
         public IActionResult Login([FromBody]LoginForm model)
         {

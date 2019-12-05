@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace VrBooking.Core
+namespace VrBooking.Core.DomainServices
 {
     public interface IRepository<T>
     {

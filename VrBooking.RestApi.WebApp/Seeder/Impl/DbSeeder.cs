@@ -37,10 +37,10 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 UserInfo = userInfo
-                
+
             };
 
-          
+
 
             userInfo = ctx.Add(userInfo).Entity;
             user1 = ctx.Add(user1).Entity;
