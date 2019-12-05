@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using VrBooking.Core;
+using Microsoft.EntityFrameworkCore;
 using VrBooking.Core.DomainServices;
 using VrBooking.Core.Entity;
 
@@ -31,7 +32,7 @@ namespace VrBooking.Infrastructure.Repositories
 
         public IEnumerable<LoginUser> ReadAll()
         {
-            return _ctx.LoginUsers;
+            return _ctx.LoginUsers.Include( lu => lu.UserInfo);
         }
 
         public LoginUser Update(LoginUser entity)

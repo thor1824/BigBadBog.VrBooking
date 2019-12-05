@@ -295,10 +295,19 @@ namespace VrBooking.Core.ApplicationServices
 
         public LoginUser Login(string UserName)
         {
-            throw new NotImplementedException();
+            LoginUser user;
+            try
+            {
+                user = _repo.ReadAll().FirstOrDefault(u => u.UserInfo.Email.ToLower() == UserName.ToLower());
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+            return user;
         }
-
-
 
         #endregion
 
