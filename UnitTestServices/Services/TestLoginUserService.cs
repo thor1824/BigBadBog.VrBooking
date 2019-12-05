@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using VrBooking.Core;
 using VrBooking.Core.ApplicationServices;
+using VrBooking.Core.DomainServices;
 using VrBooking.Core.Entity;
 
 namespace TestServices.Services
@@ -31,22 +32,24 @@ namespace TestServices.Services
                 new LoginUser()
                 {
 
-                    Activated = true,
-                    Admin = false,
-                    UserName = "Jens335@easv365.dk",
+                    IsActivated = true,
+                    IsAdmin = false,
+                    //IsUserName = "",
+                    UserInfo = new UserInfo() { Email = "Jens335@easv365.dk" },
                     PasswordHash = new byte[] {1, 2, 3},
                     PasswordSalt = new byte[] {1, 2, 3},
                     Id = 99
-                    
+
 
                 }
             };
 
             LoginUser userBeforeCreate = new LoginUser()
             {
-                Activated = true,
-                Admin = false,
-                UserName = "perPerson335@easv365.dk",
+                IsActivated = true,
+                IsAdmin = false,
+                //UserName = "",
+                UserInfo = new UserInfo() { Email = "perPerson335@easv365.dk" },
                 PasswordHash = new byte[] { 1, 2, 3 },
                 PasswordSalt = new byte[] { 1, 2, 3 }
             };
@@ -55,9 +58,9 @@ namespace TestServices.Services
             {
                 PasswordHash = userBeforeCreate.PasswordHash,
                 PasswordSalt = userBeforeCreate.PasswordSalt,
-                UserName = userBeforeCreate.UserName,
-                Activated = userBeforeCreate.Activated,
-                Admin = userBeforeCreate.Admin,
+                UserInfo = new UserInfo() { Email = userBeforeCreate.UserInfo.Email },
+                IsActivated = userBeforeCreate.IsActivated,
+                IsAdmin = userBeforeCreate.IsAdmin,
                 Id = 1
             };
 
@@ -84,18 +87,18 @@ namespace TestServices.Services
         {
             LoginUser user = new LoginUser()
             {
-                UserName = userName,
-                Activated = activated,
-                Admin = admin,
+                UserInfo = new UserInfo() { Email = userName },
+                IsActivated = activated,
+                IsAdmin = admin,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt
             };
 
             LoginUser user2 = new LoginUser()
             {
-                UserName = userName,
-                Activated = activated,
-                Admin = admin,
+                UserInfo = new UserInfo() { Email = userName },
+                IsActivated = activated,
+                IsAdmin = admin,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 Id = 1
@@ -116,17 +119,17 @@ namespace TestServices.Services
         {
             LoginUser user = new LoginUser()
             {
-                UserName = userName,
-                Activated = activated,
-                Admin = admin,
+                UserInfo = new UserInfo() { Email = userName },
+                IsActivated = activated,
+                IsAdmin = admin,
 
             };
 
             LoginUser user2 = new LoginUser()
             {
-                UserName = userName,
-                Activated = activated,
-                Admin = admin,
+                UserInfo = new UserInfo() { Email = userName },
+                IsActivated = activated,
+                IsAdmin = admin,
                 PasswordHash = passwordHash,
                 PasswordSalt = passWordSalt,
                 Id = 1
@@ -147,17 +150,17 @@ namespace TestServices.Services
         {
             LoginUser user = new LoginUser()
             {
-                UserName = userName,
-                Activated = activated,
-                Admin = admin,
+                UserInfo = new UserInfo() { Email = userName },
+                IsActivated = activated,
+                IsAdmin = admin,
 
             };
 
             LoginUser user2 = new LoginUser()
             {
-                UserName = userName,
-                Activated = activated,
-                Admin = admin,
+                UserInfo = new UserInfo() { Email = userName },
+                IsActivated = activated,
+                IsAdmin = admin,
                 PasswordHash = passwordHash,
                 PasswordSalt = passWordSalt,
                 Id = 1
@@ -178,17 +181,17 @@ namespace TestServices.Services
         {
             LoginUser user = new LoginUser()
             {
-                UserName = userName,
-                Activated = activated,
-                Admin = admin,
+                UserInfo = new UserInfo() { Email = userName },
+                IsActivated = activated,
+                IsAdmin = admin,
 
             };
 
             LoginUser user2 = new LoginUser()
             {
-                UserName = userName,
-                Activated = activated,
-                Admin = admin,
+                UserInfo = new UserInfo() { Email = userName },
+                IsActivated = activated,
+                IsAdmin = admin,
                 PasswordHash = passwordHash,
                 PasswordSalt = passWordSalt,
                 Id = id
@@ -210,21 +213,21 @@ namespace TestServices.Services
 
                 new LoginUser()
                 {
-                    Activated = true,
-                    Admin = false,
-                    UserName = "perPerson335@easv365.dk",
+                    IsActivated = true,
+                    IsAdmin = false,
+                    UserInfo = new UserInfo(){ Email = "perPerson335@easv365.dk" },
                     PasswordHash = new byte[] {1, 2, 3},
                     PasswordSalt = new byte[] {1, 2, 3},
-                    
+
                 }
 
             };
 
             LoginUser userToCreate = new LoginUser()
             {
-                Activated = true,
-                Admin = false,
-                UserName = "perPerson335@easv365.dk",
+                IsActivated = true,
+                IsAdmin = false,
+                UserInfo = new UserInfo() { Email = "perPerson335@easv365.dk" },
                 PasswordHash = new byte[] { 1, 2, 3 },
                 PasswordSalt = new byte[] { 1, 2, 3 },
                 Id = 1
@@ -245,9 +248,9 @@ namespace TestServices.Services
             long id = 1;
             LoginUser user = new LoginUser()
             {
-                Activated = true,
-                Admin = false,
-                UserName = "perPerson335@easv365.dk",
+                IsActivated = true,
+                IsAdmin = false,
+                UserInfo = new UserInfo() { Email = "perPerson335@easv365.dk" },
                 PasswordHash = new byte[] { 1, 2, 3 },
                 PasswordSalt = new byte[] { 1, 2, 3 },
                 Id = 1
@@ -255,9 +258,9 @@ namespace TestServices.Services
 
             LoginUser wrongUser = new LoginUser()
             {
-                Activated = true,
-                Admin = false,
-                UserName = "perPerson335@easv365.dk",
+                IsActivated = true,
+                IsAdmin = false,
+                UserInfo = new UserInfo() { Email = "perPerson335@easv365.dk" },
                 PasswordHash = new byte[] { 1, 2, 3 },
                 PasswordSalt = new byte[] { 1, 2, 3 },
                 Id = 2
@@ -290,9 +293,9 @@ namespace TestServices.Services
             {
                 new LoginUser()
                 {
-                    Activated = true,
-                    Admin = false,
-                    UserName = "perPerson335@easv365.dk",
+                    IsActivated = true,
+                    IsAdmin = false,
+                    UserInfo = new UserInfo(){ Email = "perPerson335@easv365.dk" },
                     PasswordHash = new byte[] {1, 2, 3},
                     PasswordSalt = new byte[] {1, 2, 3},
                     Id = 1
@@ -300,9 +303,9 @@ namespace TestServices.Services
                 },
                 new LoginUser()
                 {
-                    Activated = true,
-                    Admin = false,
-                    UserName = "Person335@easv365.dk",
+                    IsActivated = true,
+                    IsAdmin = false,
+                    UserInfo = new UserInfo(){ Email = "perPerson335@easv365.dk" },
                     PasswordHash = new byte[] {1, 2, 3},
                     PasswordSalt = new byte[] {1, 2, 3},
                     Id = 2
@@ -329,9 +332,9 @@ namespace TestServices.Services
         {
             LoginUser user = new LoginUser()
             {
-                Activated = true,
-                Admin = false,
-                UserName = "perPerson335@easv365.dk",
+                IsActivated = true,
+                IsAdmin = false,
+                UserInfo = new UserInfo() { Email = "perPerson335@easv365.dk" },
                 PasswordHash = new byte[] { 1, 2, 3 },
                 PasswordSalt = new byte[] { 1, 2, 3 },
                 Id = 1
@@ -339,9 +342,9 @@ namespace TestServices.Services
 
             LoginUser userUpdatedIfo = new LoginUser()
             {
-                Activated = true,
-                Admin = false,
-                UserName = "IHaveBenUpdated@easv365.dk",
+                IsActivated = true,
+                IsAdmin = false,
+                UserInfo = new UserInfo() { Email = "perPerson335@easv365.dk" },
                 PasswordHash = new byte[] { 1, 2, 3 },
                 PasswordSalt = new byte[] { 1, 2, 3 },
                 Id = 1
@@ -369,11 +372,11 @@ namespace TestServices.Services
         {
             LoginUser updateUser = new LoginUser()
             {
-                Activated = activated,
-                Admin = admin,
+                IsActivated = activated,
+                IsAdmin = admin,
                 PasswordHash = passwordHash,
                 PasswordSalt = passWordSalt,
-                UserName = userName
+                UserInfo = new UserInfo() { Email = userName }
             };
 
             _mockRepo.Setup(repo => repo.Update(updateUser)).Returns(updateUser);
@@ -386,9 +389,9 @@ namespace TestServices.Services
         {
             LoginUser user = new LoginUser()
             {
-                Activated = true,
-                Admin = false,
-                UserName = "perPerson335@easv365.dk",
+                IsActivated = true,
+                IsAdmin = false,
+                UserInfo = new UserInfo() { Email = "perPerson335@easv365.dk" },
                 PasswordHash = new byte[] { 1, 2, 3 },
                 PasswordSalt = new byte[] { 1, 2, 3 },
                 Id = 1
@@ -396,9 +399,9 @@ namespace TestServices.Services
 
             LoginUser userUpdatedIfo = new LoginUser()
             {
-                Activated = true,
-                Admin = false,
-                UserName = "IHaveBenUpdated@easv365.dk",
+                IsActivated = true,
+                IsAdmin = false,
+                UserInfo = new UserInfo() { Email = "perPerson335@easv365.dk" },
                 PasswordHash = new byte[] { 1, 2, 3 },
                 PasswordSalt = new byte[] { 1, 2, 3 },
                 Id = 1
@@ -416,9 +419,9 @@ namespace TestServices.Services
         {
             LoginUser user = new LoginUser()
             {
-                Activated = true,
-                Admin = false,
-                UserName = "perPerson335@easv365.dk",
+                IsActivated = true,
+                IsAdmin = false,
+                UserInfo = new UserInfo() { Email = "perPerson335@easv365.dk" },
                 PasswordHash = new byte[] { 1, 2, 3 },
                 PasswordSalt = new byte[] { 1, 2, 3 },
                 Id = 1
@@ -443,9 +446,9 @@ namespace TestServices.Services
         {
             LoginUser user = new LoginUser()
             {
-                Activated = true,
-                Admin = false,
-                UserName = "perPerson335@easv365.dk",
+                IsActivated = true,
+                IsAdmin = false,
+                UserInfo = new UserInfo() { Email = "perPerson335@easv365.dk" },
                 PasswordHash = new byte[] { 1, 2, 3 },
                 PasswordSalt = new byte[] { 1, 2, 3 },
                 Id = 1
@@ -465,9 +468,9 @@ namespace TestServices.Services
         {
             LoginUser user = new LoginUser()
             {
-                Activated = true,
-                Admin = false,
-                UserName = "perPerson335@easv365.dk",
+                IsActivated = true,
+                IsAdmin = false,
+                UserInfo = new UserInfo() { Email = "perPerson335@easv365.dk" },
                 PasswordHash = new byte[] { 1, 2, 3 },
                 PasswordSalt = new byte[] { 1, 2, 3 },
                 Id = 1

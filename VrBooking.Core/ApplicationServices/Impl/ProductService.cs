@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using VrBooking.Core.DomainServices;
+using VrBooking.Core.Entity;
 
 namespace VrBooking.Core.ApplicationServices
 {
     public class ProductService : IProductService
     {
-        private IRepository<Product> _repo;
+        private readonly IRepository<Product> _repo;
         public ProductService(IRepository<Product> repo)
         {
-            this._repo = repo;
+            _repo = repo;
         }
 
         #region C.R.U.D.
@@ -32,7 +34,7 @@ namespace VrBooking.Core.ApplicationServices
 
                 createdProduct = _repo.Create(product);
 
-                if (!isIdValid(createdProduct))
+                if (!IsIdValid(createdProduct))
                 {
                     throw new InvalidOperationException("ID not valid");
                 }
@@ -135,7 +137,7 @@ namespace VrBooking.Core.ApplicationServices
         #endregion
 
         #region validation
-        public bool isIdValid(Product product)
+        public bool IsIdValid(Product product)
         {
             if (product.Id <= 0)
             {

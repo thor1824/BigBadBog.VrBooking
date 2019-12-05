@@ -1,50 +1,53 @@
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using VrBooking.Core;
-using VrBooking.Core.ApplicationServices;
+using VrBooking.Core.DomainServices;
+using VrBooking.Core.Entity;
 
 namespace VrBooking.Infrastructure.Repositories
 {
     public class ProductRepository : IRepository<Product>
     {
-        private readonly VrBookingContext _contex;
-        private ProductRepository(VrBookingContext contex)
+        private readonly VrBookingContext _ctx;
+        public ProductRepository(VrBookingContext contex)
         {
-            _contex = contex;
+            _ctx = contex;
         }
 
         public Product Create(Product entity)
         {
-            Product createdProduct = _contex.products.Add(entity).Entity;
-            _contex.SaveChanges();
+            Product createdProduct = _ctx.Add<Product>(entity).Entity;
+            _ctx.SaveChanges();
             return createdProduct;
         }
 
         public Product Read(long id)
         {
-            return _contex.products.FirstOrDefault(prod => prod.Id == id);
+            return _ctx.Products
+                .Include( p => p.Category)
+                .FirstOrDefault(prod => prod.Id == id);
         }
 
         public IEnumerable<Product> ReadAll()
         {
-            return _contex.products;
+            return _ctx.Products
+                .Include(p => p.Category);
         }
 
         public Product Update(Product entity)
         {
-            Product oldProduct = Read(entity.Id);
-
-            oldProduct.Description = entity.Description;
+            Product oldProduct = _ctx.Products.First(a => a.Id == entity.Id);
             oldProduct.Name = entity.Name;
-
-            _contex.SaveChanges();
+            oldProduct.Description = entity.Description;
+            oldProduct.Category = entity.Category;
+            _ctx.SaveChanges();
             return entity;
         }
 
         public Product Delete(Product entity)
         {
-            var entityRemoved = _contex.Remove(Read(entity.Id)).Entity;
-            _contex.SaveChanges();
+            Product entityRemoved = _ctx.Remove<Product>(entity).Entity;
+            _ctx.SaveChanges();
             return entityRemoved;
         }
     }
