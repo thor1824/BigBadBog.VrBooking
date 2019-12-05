@@ -11,8 +11,13 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
+<<<<<<< Updated upstream
       "launchBrowser": true,
       "launchUrl": "api/values",
+=======
+      "launchBrowser": false,
+      "launchUrl": "api/Products",
+>>>>>>> Stashed changes
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

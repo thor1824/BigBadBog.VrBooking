@@ -292,6 +292,25 @@ namespace VrBooking.Core.ApplicationServices
             return true;
         }
 
+<<<<<<< Updated upstream
+=======
+        public LoginUser Login(string UserName)
+        {
+            LoginUser user;
+            try
+            {
+                user = _repo.ReadAll().FirstOrDefault(u => u.UserInfo.Email.ToLower() == UserName.ToLower());
+            }
+            catch (Exception e)
+            {
+                
+                throw e;
+            }
+
+            return user;
+        }
+
+>>>>>>> Stashed changes
 
 
         #endregion

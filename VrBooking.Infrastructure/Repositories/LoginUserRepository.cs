@@ -1,6 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using VrBooking.Core;
+<<<<<<< Updated upstream
+=======
+using Microsoft.EntityFrameworkCore;
+using VrBooking.Core.DomainServices;
+>>>>>>> Stashed changes
 using VrBooking.Core.Entity;
 
 namespace VrBooking.Infrastructure.Repositories
@@ -30,7 +35,11 @@ namespace VrBooking.Infrastructure.Repositories
 
         public IEnumerable<LoginUser> ReadAll()
         {
+<<<<<<< Updated upstream
             return _context.loginUsers;
+=======
+            return _ctx.LoginUsers.Include( lu => lu.UserInfo);
+>>>>>>> Stashed changes
         }
 
         public LoginUser Update(LoginUser entity)
