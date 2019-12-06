@@ -16,12 +16,15 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
             ctx.Database.EnsureDeleted();
             ctx.Database.EnsureCreated();
 
-           string paswordString = "123456";
+           string paswordString1 = "123456";
+           string paswordString2 = "123456";
+           byte[] passwordHashThor, passwordSaltThor;
+           _authenticationHelper.CreatePasswordHash(paswordString1,out passwordHashThor,out passwordSaltThor);
+           byte[] passwordHashOle, passwordSaltOle;
+           _authenticationHelper.CreatePasswordHash(paswordString2,out passwordHashOle,out passwordSaltOle);
 
-           byte[] passwordHash, passwordSalt;
-           _authenticationHelper.CreatePasswordHash(paswordString,out passwordHash,out passwordSalt);
 
-           UserInfo userInfo = new UserInfo()
+           UserInfo userInfo1 = new UserInfo()
            {
                Email = "ole123@easv365.dk",
                Address = "sgvdsv",
@@ -30,20 +33,43 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
                PhoneNumber = "12345678"
            };
 
-            LoginUser user1 = new LoginUser()
+           UserInfo userInfo2 = new UserInfo()
+           {
+               Address = "BjørneBy",
+               Email = "thor666@easv365.dk",
+               FirstName = "Thor",
+               LastName = "Bjørn",
+               PhoneNumber = "12345678"
+           };
+
+           LoginUser loginUser2 = new LoginUser()
+           {
+               IsActivated = true,
+               IsAdmin = false,
+               PasswordHash = passwordHashThor,
+               PasswordSalt = passwordSaltThor,
+               UserInfo = userInfo2,
+           };
+
+            LoginUser loginUser1 = new LoginUser()
             {
                 IsActivated = true,
                 IsAdmin = true,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt,
-                UserInfo = userInfo
+                PasswordHash = passwordHashOle,
+                PasswordSalt = passwordSaltOle,
+                UserInfo = userInfo1
 
             };
 
 
 
-            userInfo = ctx.Add(userInfo).Entity;
-            user1 = ctx.Add(user1).Entity;
+
+            userInfo2 = ctx.Add(userInfo2).Entity;
+            userInfo1 = ctx.Add(userInfo1).Entity;
+            loginUser2 = ctx.Add(loginUser2).Entity;
+            loginUser1 = ctx.Add(loginUser1).Entity;
+            
+           
             ctx.SaveChanges();
 
         }
