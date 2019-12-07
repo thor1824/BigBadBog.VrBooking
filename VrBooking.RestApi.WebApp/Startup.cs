@@ -66,7 +66,7 @@ namespace VrBooking.RestApi.WebApp
             services.AddScoped<IRepository<Category>, CategoryRepository>();
             services.AddScoped<IRepository<UserInfo>, UserInfoRepository>();
             services.AddScoped<IRepository<BookingOrder>, BookingRepository>();
-            //services.AddScoped<IRepository<LoginUser>, LoginUserRepository>();
+            services.AddScoped<IRepository<LoginUser>, LoginUserRepository>();
 
             services.AddScoped<IUserInfoService, UserInfoService>();
             services.AddScoped<IProductService, ProductService>();

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using VrBooking.Core.ApplicationServices;
 using VrBooking.Core.Entity;
+using VrBooking.RestApi.WebApp.Helper;
+using VrBooking.RestApi.WebApp.Model;
 
 namespace VrBooking.RestApi.WebApp.Controllers
 {
@@ -25,11 +27,23 @@ namespace VrBooking.RestApi.WebApp.Controllers
 
         // GET: api/Booking
         [HttpGet]
-        public ActionResult<IEnumerable<BookingOrder>> Get()
+        public ActionResult<IEnumerable<BookingAdapterOut>> Get()
         {
             try
             {
-                return Ok(_bookingService.ReadAll());
+                List<BookingAdapterOut> bookings = new List<BookingAdapterOut>();
+                foreach (var booking in _bookingService.ReadAll())
+                {
+                    bookings.Add(new BookingAdapterOut
+                    {
+                        Id = booking.Id,
+                        Product = booking.Product,
+                        User = booking.User,
+                        StartTimeOfBooking = DateConverter.FromDatetimeToUTCEpoch(booking.StartTimeOfBooking),
+                        EndTimeOfBooking = DateConverter.FromDatetimeToUTCEpoch(booking.EndTimeOfBooking)
+                    });
+                }
+                return Ok(bookings);
             }
             catch (Exception e)
             {
@@ -40,11 +54,19 @@ namespace VrBooking.RestApi.WebApp.Controllers
 
         // GET: api/Booking/5
         [HttpGet("{id}")]
-        public ActionResult<BookingOrder> Get(int id)
+        public ActionResult<BookingAdapterOut> Get(int id)
         {
             try
             {
-                return Ok(_bookingService.Read(id));
+                BookingOrder booking = _bookingService.Read(id);
+                return Ok(new BookingAdapterOut
+                {
+                    Id = booking.Id,
+                    Product = booking.Product,
+                    User = booking.User,
+                    StartTimeOfBooking = DateConverter.FromDatetimeToUTCEpoch(booking.StartTimeOfBooking),
+                    EndTimeOfBooking = DateConverter.FromDatetimeToUTCEpoch(booking.EndTimeOfBooking)
+                });
             }
             catch (Exception e)
             {
@@ -54,20 +76,26 @@ namespace VrBooking.RestApi.WebApp.Controllers
 
         // POST: api/Booking
         [HttpPost]
-        public ActionResult Post([FromBody] BookingOrder value)
+        public ActionResult<BookingAdapterOut> Post([FromBody] BookingAdapterIn value)
         {
             try
             {
-                if (value.Product != null)
+                BookingOrder booking = _bookingService.Create(new BookingOrder
                 {
-                    value.Product = _productService.Read(value.Product.Id);
-                }
-                if (value.User != null)
+                    Id = value.Id,
+                    Product = _productService.Read(value.Product.Id),
+                    User = _UserInfoservice.Read(value.User.Id),
+                    StartTimeOfBooking = DateConverter.FromUTCEpochToDatetime(value.StartTimeOfBooking),
+                    EndTimeOfBooking = DateConverter.FromUTCEpochToDatetime(value.EndTimeOfBooking)
+                });
+                return Created("" + booking.Id, new BookingAdapterOut
                 {
-                    value.User = _UserInfoservice.Read(value.Id);
-                }
-                BookingOrder booking = _bookingService.Create(value);
-                return Created("" + booking.Id, booking);
+                    Id = booking.Id,
+                    Product = booking.Product,
+                    User = booking.User,
+                    StartTimeOfBooking = DateConverter.FromDatetimeToUTCEpoch(booking.StartTimeOfBooking),
+                    EndTimeOfBooking = DateConverter.FromDatetimeToUTCEpoch(booking.EndTimeOfBooking)
+                });
             }
             catch (Exception e)
             {
@@ -77,11 +105,18 @@ namespace VrBooking.RestApi.WebApp.Controllers
 
         // PUT: api/Booking/5
         [HttpPut()]
-        public ActionResult Put([FromBody] BookingOrder value)
+        public ActionResult Put([FromBody] BookingAdapterIn value)
         {
             try
             {
-                _bookingService.Update(value);
+                _bookingService.Update(new BookingOrder
+                {
+                    Id = value.Id,
+                    Product = _productService.Read(value.Product.Id),
+                    User = _UserInfoservice.Read(value.User.Id),
+                    StartTimeOfBooking = DateConverter.FromUTCEpochToDatetime(value.StartTimeOfBooking),
+                    EndTimeOfBooking = DateConverter.FromUTCEpochToDatetime(value.EndTimeOfBooking)
+                });
                 return NoContent();
             }
             catch (Exception e)
