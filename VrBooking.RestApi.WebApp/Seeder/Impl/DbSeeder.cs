@@ -42,17 +42,64 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
 
             };
 
-            Category cat = new Category
+
+            Category cat1 = new Category
             {
-                Name = "Category"
+                Name = "VR Room"
             };
+            Category cat2 = new Category
+            {
+                Name = "VR & AR Equipment"
+            };
+            Category cat3 = new Category
+            {
+                Name = "Other Equipment"
+            };
+            List<Category> cats = new List<Category> { cat1, cat2, cat3 };
 
             Product product1 = new Product()
             {
                 Name = "product",
-                Category = cat,
+                Category = cat1,
                 Description = "desciption"
             };
+            Product product2 = new Product()
+            {
+                Name = "product",
+                Category = cat1,
+                Description = "desciption"
+            };
+            Product product3 = new Product()
+            {
+                Name = "product",
+                Category = cat1,
+                Description = "desciption"
+            };
+            Product product4 = new Product()
+            {
+                Name = "product",
+                Category = cat1,
+                Description = "desciption"
+            };
+            Product product5 = new Product()
+            {
+                Name = "product",
+                Category = cat1,
+                Description = "desciption"
+            };
+            Product product6 = new Product()
+            {
+                Name = "product",
+                Category = cat2,
+                Description = "desciption"
+            };
+            Product product7 = new Product()
+            {
+                Name = "product",
+                Category = cat3,
+                Description = "desciption"
+            };
+            List<Product> prods = new List<Product> { product1, product2, product3, product4, product5, product6, product7 };
             DateTime s1 = new DateTime(2019, 12, 6, 15, 0, 0, DateTimeKind.Utc);
             DateTime e1 = new DateTime(2019, 12, 6, 16, 0, 0, DateTimeKind.Utc);
             DateTime s2 = new DateTime(2019, 12, 7, 13, 0, 0, DateTimeKind.Utc);
@@ -77,6 +124,8 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
                 }
             };
 
+            ctx.AddRange(prods);
+            ctx.AddRange(cats);
             ctx.Add(userInfo);
             ctx.Add(user1);
             ctx.AddRange(list);
