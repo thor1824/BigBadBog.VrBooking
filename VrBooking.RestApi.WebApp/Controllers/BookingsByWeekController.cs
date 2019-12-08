@@ -26,7 +26,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             try
             {
                 List<BookingAdapterOut> bookings = new List<BookingAdapterOut>();
-                foreach (var item in _bookingService.ReadByWeek(week.WeekStart, week.WeekEnd))
+                foreach (var item in _bookingService.ReadByWeek(week.WeekStart, week.WeekEnd, week.ProductId))
                 {
                     bookings.Add(new BookingAdapterOut { 
                         Id = item.Id, 

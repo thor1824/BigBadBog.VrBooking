@@ -37,7 +37,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
                 // Authentication successful
                 return Ok(new
                 {
-                    username = user.UserInfo,
+                    user = user.UserInfo,
                     token = _authHelper.GenerateToken(user)
                 });
             }

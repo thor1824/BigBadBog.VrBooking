@@ -11,6 +11,6 @@ namespace VrBooking.Core.ApplicationServices
         BookingOrder Read(long id);
         List<BookingOrder> ReadAll();
         BookingOrder Update(BookingOrder bo);
-        List<BookingOrder> ReadByWeek(DateTime weekStart, DateTime weekEnd);
+        List<BookingOrder> ReadByWeek(DateTime weekStart, DateTime weekEnd, long productId);
     }
 }

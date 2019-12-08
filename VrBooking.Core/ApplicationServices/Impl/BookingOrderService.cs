@@ -56,12 +56,12 @@ namespace VrBooking.Core.ApplicationServices
 
         }
 
-        public List<BookingOrder> ReadByWeek(DateTime weekStart, DateTime weekEnd)
+        public List<BookingOrder> ReadByWeek(DateTime weekStart, DateTime weekEnd, long productId)
         {
             List<BookingOrder> bookingsByWeek;
             try
             {
-                bookingsByWeek = _repo.ReadAll().Where(b => b.StartTimeOfBooking > weekStart).Where(b => b.EndTimeOfBooking < weekEnd).ToList();
+                bookingsByWeek = _repo.ReadAll().Where(b => b.Product.Id == productId).Where(b => b.StartTimeOfBooking > weekStart).Where(b => b.EndTimeOfBooking < weekEnd).ToList();
             }
             catch (Exception e)
             {
