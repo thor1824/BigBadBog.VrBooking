@@ -32,14 +32,16 @@ namespace VrBooking.Infrastructure.Repositories
         public BookingOrder Read(long id)
         {
             return _ctx.BookingOrders
-                .Include(booking => booking.User).Include(booking => booking.Product)
+                .Include(booking => booking.User)
+                .Include(booking => booking.Product)
                 .FirstOrDefault(booking => booking.Id == id);
         }
 
         public IEnumerable<BookingOrder> ReadAll()
         {
             return _ctx.BookingOrders
-                .Include(booking => booking.User).Include(booking => booking.Product);
+                .Include(booking => booking.User)
+                .Include(booking => booking.Product);
         }
 
         public BookingOrder Update(BookingOrder entity)
