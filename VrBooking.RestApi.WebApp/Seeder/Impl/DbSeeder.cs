@@ -8,7 +8,7 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
 {
     internal class DbSeeder : IDbSeeder
     {
-        private IAuthenticationHelper _authenticationHelper;
+        private readonly IAuthenticationHelper _authenticationHelper;
         public DbSeeder(IAuthenticationHelper authenticationHelper)
         {
             _authenticationHelper = authenticationHelper;
@@ -20,12 +20,11 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
 
             string paswordString = "123456";
 
-            byte[] passwordHash, passwordSalt;
-            _authenticationHelper.CreatePasswordHash(paswordString, out passwordHash, out passwordSalt);
+            _authenticationHelper.CreatePasswordHash(paswordString, out byte[] passwordHash, out byte[] passwordSalt);
 
 
 
-           UserInfo userInfo1 = new UserInfo()
+            UserInfo userInfo1 = new UserInfo()
            {
                Address = "BjørneBy",
                Email = "thor666@easv365.dk",
@@ -76,7 +75,7 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
                 IsAdmin = false,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-                UserInfo = userInfo2
+                UserInfo = userInfo3
 
             };
 
