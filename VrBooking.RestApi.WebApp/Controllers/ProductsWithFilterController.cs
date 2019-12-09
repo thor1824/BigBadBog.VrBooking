@@ -24,7 +24,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult<List<FilterPageProductList>> Post([FromBody] FilterPageProductList pagefilter)
+        public ActionResult<List<FilterPageList<Product>>> Post([FromBody] FilterPageList<Product> pagefilter)
         {
             try
             {

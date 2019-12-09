@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace VrBooking.Core.Entity
 {
-    public class FilterPageProductList
+    public class FilterPageList<T>
     {
-        public List<Product> Products { get; set; }
+        public List<T> Products { get; set; }
         
-        public Category Filter { get; set; }
+        public Category FilterCategory { get; set; }
 
         public int ItemsTotal { get; set; }
         

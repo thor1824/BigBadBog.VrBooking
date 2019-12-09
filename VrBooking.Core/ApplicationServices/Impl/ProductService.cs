@@ -81,14 +81,14 @@ namespace VrBooking.Core.ApplicationServices
             }
         }
 
-        public object ReadAllWithPageFilter(FilterPageProductList pagefilter)
+        public object ReadAllWithPageFilter(FilterPageList<Product> pagefilter)
         {
             try
             {
                 IEnumerable<Product> list = _repo.ReadAll();
-                if (pagefilter.Filter != null)
+                if (pagefilter.FilterCategory != null)
                 {
-                    IEnumerable<Product> temp = list.Where(p => p.Category.Id == pagefilter.Filter.Id).ToList();
+                    IEnumerable<Product> temp = list.Where(p => p.Category.Id == pagefilter.FilterCategory.Id).ToList();
                     list = temp;
                 }
                 pagefilter.ItemsTotal = list.Count();
