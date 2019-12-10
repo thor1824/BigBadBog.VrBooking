@@ -26,8 +26,8 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
            {
                Address = "BjørneBy",
                Email = "thor666@easv365.dk",
-               FirstName = "Thor",
-               LastName = "Bjørn",
+               FirstName = "Thorbjørn",
+               LastName = "Damkjær",
                PhoneNumber = "12345678"
            };
 
