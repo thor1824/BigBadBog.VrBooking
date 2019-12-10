@@ -56,7 +56,20 @@ namespace VrBooking.Core.ApplicationServices
 
         }
 
+        public List<BookingOrder> ReadByWeek(DateTime weekStart, DateTime weekEnd, long productId)
+        {
+            List<BookingOrder> bookingsByWeek;
+            try
+            {
+                bookingsByWeek = _repo.ReadAll().Where(b => b.Product.Id == productId).Where(b => b.StartTimeOfBooking > weekStart).Where(b => b.EndTimeOfBooking < weekEnd).ToList();
+            }
+            catch (Exception e)
+            {
 
+                throw e;
+            }
+            return bookingsByWeek;
+        }
 
         public BookingOrder Read(long id)
         {
@@ -154,6 +167,7 @@ namespace VrBooking.Core.ApplicationServices
         }
         #endregion
 
+
         #region checks
         private bool HasNullValue(BookingOrder bo)
         {
@@ -177,6 +191,7 @@ namespace VrBooking.Core.ApplicationServices
                 .FirstOrDefault() != null;
         }
 
+        
         #endregion
     }
 }

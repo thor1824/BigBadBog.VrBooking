@@ -81,6 +81,31 @@ namespace VrBooking.Core.ApplicationServices
             }
         }
 
+        public object ReadAllWithPageFilter(FilterPageProductList pagefilter)
+        {
+            try
+            {
+                IEnumerable<Product> list = _repo.ReadAll();
+                if (pagefilter.Filter != null)
+                {
+                    IEnumerable<Product> temp = list.Where(p => p.Category.Id == pagefilter.Filter.Id).ToList();
+                    list = temp;
+                }
+                pagefilter.ItemsTotal = list.Count();
+                pagefilter.PageTotal = pagefilter.ItemsTotal / pagefilter.ItemsPrPage;
+
+                pagefilter.Products = list.Skip(pagefilter.PageIndex * pagefilter.ItemsPrPage).Take(pagefilter.ItemsPrPage).ToList();
+
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            return pagefilter;
+        }
+
         public Product Update(Product product)
         {
             Product updatedProduct;
@@ -160,6 +185,8 @@ namespace VrBooking.Core.ApplicationServices
                 return true;
             }
         }
+
+
         #endregion
     }
 }

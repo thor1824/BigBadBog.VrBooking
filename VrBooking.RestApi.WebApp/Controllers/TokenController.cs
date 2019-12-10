@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using VrBooking.Core.ApplicationServices;
+using VrBooking.Core.Entity;
 using VrBooking.RestApi.WebApp.Helper;
 using VrBooking.RestApi.WebApp.Model;
 
@@ -18,26 +20,31 @@ namespace VrBooking.RestApi.WebApp.Controllers
             _authHelper = authHelper;
         }
 
-
         [HttpPost]
         public IActionResult Login([FromBody]LoginForm model)
         {
-            Core.Entity.LoginUser user = _log.Login(model.UserNameInput);
-
-            // check if username exists
-            if (user == null)
-                return Unauthorized();
-
-            // check if password is correct
-            if (!_authHelper.VerifyPasswordHash(model.PasswordInput, user.PasswordHash, user.PasswordSalt))
-                return Unauthorized();
-
-            // Authentication successful
-            return Ok(new
+            try
             {
-                username = user.UserInfo.Email,
-                token = _authHelper.GenerateToken(user)
-            });
+                LoginUser user = _log.Login(model.UserNameInput);
+
+                if (user == null)
+                    return Unauthorized();
+
+                // check if password is correct
+                if (!_authHelper.VerifyPasswordHash(model.PasswordInput, user.PasswordHash, user.PasswordSalt))
+                    return Unauthorized();
+
+                // Authentication successful
+                return Ok(new
+                {
+                    user = user.UserInfo,
+                    token = _authHelper.GenerateToken(user)
+                });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
     }
