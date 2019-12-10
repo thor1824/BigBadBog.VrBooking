@@ -191,7 +191,7 @@ namespace VrBooking.Core.ApplicationServices
                 .FirstOrDefault() != null;
         }
 
-        
+
         #endregion
     }
 }

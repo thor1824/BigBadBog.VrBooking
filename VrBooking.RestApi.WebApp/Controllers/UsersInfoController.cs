@@ -14,7 +14,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
 
         public UsersInfoController(IUserInfoService service)
         {
-            _service=service;
+            _service = service;
         }
 
         // GET: api/User

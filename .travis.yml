@@ -4,4 +4,5 @@ dotnet: 2.2.402
 solution: solution-name.sln
 script:
   - dotnet restore
+  - dotnet build
   - dotnet test

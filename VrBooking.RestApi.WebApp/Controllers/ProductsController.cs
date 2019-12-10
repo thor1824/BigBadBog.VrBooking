@@ -57,7 +57,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             {
                 if (value.Category != null)
                 {
-                    value.Category =_categoryService.Read(value.Category.Id);
+                    value.Category = _categoryService.Read(value.Category.Id);
                 }
                 Product product = _productService.Create(value);
                 return Created("" + product.Id, product);
@@ -76,7 +76,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             {
                 if (value.Category != null)
                 {
-                    value.Category =_categoryService.Read(value.Category.Id);
+                    value.Category = _categoryService.Read(value.Category.Id);
                 }
                 _productService.Update(value);
                 return NoContent();
