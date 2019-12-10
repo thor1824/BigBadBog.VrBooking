@@ -115,7 +115,7 @@ namespace VrBooking.Core.ApplicationServices
                     throw new InvalidOperationException("Updated User was null");
                 }
 
-                if (!user.Equals(Read(user.Id)))
+                if (!updatedUser.Equals(Read(user.Id)))
                 {
                     throw new InvalidOperationException("User was not Updated");
                 }

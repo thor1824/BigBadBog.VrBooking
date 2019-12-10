@@ -62,7 +62,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
         }
 
         // PUT: api/User/5
-        [HttpPut()]
+        [HttpPut]
         public ActionResult Put([FromBody] UserInfo value)
         {
             try
