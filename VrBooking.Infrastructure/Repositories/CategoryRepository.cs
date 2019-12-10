@@ -43,6 +43,8 @@ namespace VrBooking.Infrastructure.Repositories
         {
             Category oldCategory = _ctx.Categories.First(category => category.Id == entity.Id);
             oldCategory.Name = entity.Name;
+            oldCategory.Description = entity.Description;
+            oldCategory.ImgUrl = entity.ImgUrl;
             _ctx.SaveChanges();
             return oldCategory;
         }

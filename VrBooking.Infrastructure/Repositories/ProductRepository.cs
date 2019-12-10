@@ -24,7 +24,7 @@ namespace VrBooking.Infrastructure.Repositories
         public Product Read(long id)
         {
             return _ctx.Products
-                .Include( p => p.Category)
+                .Include(p => p.Category)
                 .FirstOrDefault(prod => prod.Id == id);
         }
 
