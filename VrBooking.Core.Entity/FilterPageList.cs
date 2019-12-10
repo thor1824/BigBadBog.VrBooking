@@ -7,7 +7,7 @@ namespace VrBooking.Core.Entity
 {
     public class FilterPageList<T>
     {
-        public List<T> Products { get; set; }
+        public List<T> List { get; set; }
         
         public Category FilterCategory { get; set; }
 

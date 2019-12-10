@@ -8,6 +8,8 @@ using VrBooking.Core.Entity;
 
 namespace VrBooking.RestApi.WebApp.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class UserInfoWithFilterController : Controller
     {
         private readonly IUserInfoService _userInfoService;

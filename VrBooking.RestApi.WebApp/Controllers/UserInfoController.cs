@@ -8,11 +8,11 @@ namespace VrBooking.RestApi.WebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersInfoController : ControllerBase
+    public class UserInfoController : ControllerBase
     {
         private readonly IUserInfoService _service;
 
-        public UsersInfoController(IUserInfoService service)
+        public UserInfoController(IUserInfoService service)
         {
             _service=service;
         }

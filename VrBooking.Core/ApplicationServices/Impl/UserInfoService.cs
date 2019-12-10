@@ -161,7 +161,7 @@ namespace VrBooking.Core.ApplicationServices
                 pagefilter.ItemsTotal = list.Count();
                 pagefilter.PageTotal = pagefilter.ItemsTotal / pagefilter.ItemsPrPage;
 
-                pagefilter.Products = list.Skip(pagefilter.PageIndex * pagefilter.ItemsPrPage).Take(pagefilter.ItemsPrPage).ToList();
+                pagefilter.List = list.Skip(pagefilter.PageIndex * pagefilter.ItemsPrPage).Take(pagefilter.ItemsPrPage).ToList();
 
 
             }
