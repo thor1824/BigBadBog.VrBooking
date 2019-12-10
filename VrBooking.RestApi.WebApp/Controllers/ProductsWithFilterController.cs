@@ -1,9 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using VrBooking.Core.ApplicationServices;
 using VrBooking.Core.Entity;
 
@@ -24,11 +21,11 @@ namespace VrBooking.RestApi.WebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult<List<FilterPageProductList>> Post([FromBody] FilterPageProductList pagefilter)
+        public ActionResult<List<FilterPageList<Product>>> Post([FromBody] FilterPageList<Product> pagefilter)
         {
             try
             {
-                
+
                 return Ok(_productService.ReadAllWithPageFilter(pagefilter));
             }
             catch (Exception e)

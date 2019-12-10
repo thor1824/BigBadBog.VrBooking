@@ -150,6 +150,28 @@ namespace VrBooking.Core.ApplicationServices
 
             return deletedUser;
         }
+
+
+        public object ReadAllWithPageFilter(FilterPageList<UserInfo> pagefilter)
+        {
+            try
+            {
+                IEnumerable<UserInfo> list = _repo.ReadAll();
+               
+                pagefilter.ItemsTotal = list.Count();
+                pagefilter.PageTotal = pagefilter.ItemsTotal / pagefilter.ItemsPrPage;
+
+                pagefilter.List = list.Skip(pagefilter.PageIndex * pagefilter.ItemsPrPage).Take(pagefilter.ItemsPrPage).ToList();
+
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            return pagefilter;
+        }
         #endregion
 
         #region validation

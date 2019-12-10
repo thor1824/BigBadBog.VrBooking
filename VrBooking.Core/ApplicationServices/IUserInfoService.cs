@@ -10,5 +10,6 @@ namespace VrBooking.Core.ApplicationServices
         UserInfo Read(long id);
         List<UserInfo> ReadAll();
         UserInfo Update(UserInfo user);
+        object ReadAllWithPageFilter(FilterPageList<UserInfo> pagefilter);
     }
 }

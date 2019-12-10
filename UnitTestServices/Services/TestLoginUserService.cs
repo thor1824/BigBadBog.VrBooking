@@ -3,7 +3,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using VrBooking.Core;
 using VrBooking.Core.ApplicationServices;
 using VrBooking.Core.DomainServices;
 using VrBooking.Core.Entity;

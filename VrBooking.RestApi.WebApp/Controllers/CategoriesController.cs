@@ -14,7 +14,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
 
         public CategoriesController(ICategoryService service)
         {
-            _service=service;
+            _service = service;
         }
 
 
