@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using VrBooking.Core.ApplicationServices;
 using VrBooking.Core.Entity;
-using VrBooking.RestApi.WebApp.Model;
 
 namespace VrBooking.RestApi.WebApp.Controllers
 {
@@ -52,26 +51,20 @@ namespace VrBooking.RestApi.WebApp.Controllers
 
         // POST: api/Product
         [HttpPost]
-        public ActionResult Post([FromBody] ProductDTO value)
+        public ActionResult Post([FromBody] Product value)
         {
             try
             {
-                Product prod = null;
-                if (value.CategoryId != 0)
+                if (value.Category != null)
                 {
-                    prod = new Product()
-                    {
-                        Category = _categoryService.Read(value.CategoryId),
-                        Name = value.Name,
-                        Description = value.Description
-                    };
+                    value.Category =_categoryService.Read(value.Category.Id);
                 }
-                Product product = _productService.Create(prod);
+                Product product = _productService.Create(value);
                 return Created("" + product.Id, product);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(e);
             }
         }
 
