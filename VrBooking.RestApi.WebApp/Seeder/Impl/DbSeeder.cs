@@ -1,4 +1,5 @@
-﻿using VrBooking.Core.Entity;
+﻿using System.Collections.Generic;
+using VrBooking.Core.Entity;
 using VrBooking.Infrastructure;
 
 namespace VrBooking.RestApi.WebApp.Seeder.Impl
@@ -31,6 +32,28 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
                 Description = "Its good",
                 Name = "HTC VIVE",
             };
+
+            Category cat1 = new Category
+            {
+                Name = "VR Room",
+                Description = "Rooms on EASV",
+                ImgUrl = "https://i.pinimg.com/originals/ec/93/0f/ec930fe87c4c1391de4946351d0967c2.jpg"
+            };
+            Category cat2 = new Category
+            {
+                Name = "VR & AR Equipment",
+                Description = "VR & AR Equipment on EASV",
+                ImgUrl = "https://www.avrspot.com/wp-content/uploads/2019/06/AR-2-1024x629-1024x585.jpg"
+            };
+            Category cat3 = new Category
+            {
+                Name = "Other Equipment",
+                Description = "Drones or Camera equipment on EASV",
+                ImgUrl = "https://149355317.v2.pressablecdn.com/wp-content/uploads/2018/09/Mavic-2-Pro-Image-1.jpg"
+            };
+            List<Category> cats = new List<Category> { cat1, cat2, cat3 };
+
+            string desciption = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
             Product prodEquip2 = new Product()
             {
