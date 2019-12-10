@@ -20,8 +20,7 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
 
             string paswordString = "123456";
 
-            byte[] passwordHash, passwordSalt;
-            _authenticationHelper.CreatePasswordHash(paswordString, out passwordHash, out passwordSalt);
+            _authenticationHelper.CreatePasswordHash(paswordString, out byte[] passwordHash, out byte[] passwordSalt);
 
             UserInfo userInfo1 = new UserInfo()
             {
