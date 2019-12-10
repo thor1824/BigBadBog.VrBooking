@@ -15,9 +15,10 @@ namespace VrBooking.Infrastructure.Repositories
         }
         public UserInfo Create(UserInfo entity)
         {
-            _contex.Add<UserInfo>(entity);
+            UserInfo createdUser = _contex.Add<UserInfo>(entity).Entity;
             _contex.SaveChanges();
-            throw new NotImplementedException();
+            return createdUser;
+            
         }
 
         public UserInfo Read(long id)

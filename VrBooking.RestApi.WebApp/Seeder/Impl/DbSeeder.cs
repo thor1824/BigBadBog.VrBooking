@@ -44,7 +44,7 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
            {
                Email = "ole123@easv365.dk",
                Address = "RoadRoad 1.",
-               FirstName = "'Christian",
+               FirstName = "Christian",
                LastName = "Andersen",
                PhoneNumber = "12345678"
            };
@@ -62,7 +62,7 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
             {
                 Email = "ole456@easv365.dk",
                 Address = "StreetStreet 2.",
-                FirstName = "'Nijas",
+                FirstName = "Nijas",
                 LastName = "Hansen",
                 PhoneNumber = "12345678"
             };
