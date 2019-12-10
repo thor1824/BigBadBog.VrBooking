@@ -270,10 +270,10 @@ namespace TestServices.Services
             Product product = new Product() { Id = prod1Id };
             Product product2 = new Product() { Id = prod2Id };
             DateTime cal = DateTime.Now;
-            DateTime start = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + oldStart, 0, 0);
-            DateTime end = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + oldEnd, 0, 0);
-            DateTime start2 = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + newStart, 0, 0);
-            DateTime end2 = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + newEnd, 0, 0);
+            DateTime start = new DateTime(cal.Year + 1, cal.Month, cal.Day, 10 + oldStart, 0, 0);
+            DateTime end = new DateTime(cal.Year + 1, cal.Month, cal.Day, 10 + oldEnd, 0, 0);
+            DateTime start2 = new DateTime(cal.Year + 1, cal.Month, cal.Day, 10 + newStart, 0, 0);
+            DateTime end2 = new DateTime(cal.Year + 1, cal.Month, cal.Day, 10 + newEnd, 0, 0);
 
             BookingOrder oldBooking = new BookingOrder()
             {
@@ -326,12 +326,12 @@ namespace TestServices.Services
             UserInfo user = new UserInfo();
             Product product = new Product() { Id = prod1Id };
             DateTime cal = DateTime.Now;
-            DateTime start = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + oldStart, 0, 0);
-            DateTime end = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + oldEnd, 0, 0);
-            DateTime start2 = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + newStart, 0, 0);
-            DateTime end2 = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + newEnd, 0, 0);
-            DateTime start3 = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + bStart3, 0, 0);
-            DateTime end3 = new DateTime(cal.Year+1, cal.Month, cal.Day, 10 + bEnd3, 0, 0);
+            DateTime start = new DateTime(cal.Year + 1, cal.Month, cal.Day, 10 + oldStart, 0, 0);
+            DateTime end = new DateTime(cal.Year + 1, cal.Month, cal.Day, 10 + oldEnd, 0, 0);
+            DateTime start2 = new DateTime(cal.Year + 1, cal.Month, cal.Day, 10 + newStart, 0, 0);
+            DateTime end2 = new DateTime(cal.Year + 1, cal.Month, cal.Day, 10 + newEnd, 0, 0);
+            DateTime start3 = new DateTime(cal.Year + 1, cal.Month, cal.Day, 10 + bStart3, 0, 0);
+            DateTime end3 = new DateTime(cal.Year + 1, cal.Month, cal.Day, 10 + bEnd3, 0, 0);
 
             BookingOrder oldBooking = new BookingOrder()
             {
