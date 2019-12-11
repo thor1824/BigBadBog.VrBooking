@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using VrBooking.Core.Entity;
 
 namespace VrBooking.Core.ApplicationServices
 {
@@ -9,5 +11,6 @@ namespace VrBooking.Core.ApplicationServices
         BookingOrder Read(long id);
         List<BookingOrder> ReadAll();
         BookingOrder Update(BookingOrder bo);
+        List<BookingOrder> ReadByWeek(DateTime weekStart, DateTime weekEnd, long productId);
     }
 }
