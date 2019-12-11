@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using VrBooking.Core.Entity;
 using VrBooking.Infrastructure;
@@ -15,7 +16,15 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
         }
         public void Seed(VrBookingContext ctx)
         {
-            ctx.Database.EnsureDeleted();
+            
+
+            if (ctx.Database.IsSqlServer())
+            {
+                ctx.Database.ExecuteSqlCommand("DROP DATABASE VrBooking-db");
+            } else {
+                ctx.Database.EnsureDeleted();
+            }
+
             ctx.Database.EnsureCreated();
 
             string paswordString = "123456";
