@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using VrBooking.Core.ApplicationServices;
@@ -20,22 +21,31 @@ namespace VrBooking.RestApi.WebApp.Controllers
             _categoryService = categoryService;
         }
 
-        // GET: api/Product
+        [Authorize]
         [HttpGet]
-        public ActionResult<IEnumerable<Product>> Get()
+        public ActionResult<IEnumerable<Product>> Get([FromQuery] int pageIndex, int itemsPrPage, int filterID)
         {
             try
             {
-                return Ok(_productService.ReadAll());
+                if (pageIndex == 0 && itemsPrPage == 0 && filterID == 0)
+                {
+                    return Ok(_productService.ReadAll());
+                }
+                else
+                {
+                    return Ok(_productService.ReadAllWithPageFilter(pageIndex, itemsPrPage, filterID));
+                }
+
             }
             catch (Exception e)
             {
                 return BadRequest(e);
             }
 
+
         }
 
-        // GET: api/Product/5
+        [Authorize]
         [HttpGet("{id}")]
         public ActionResult<Product> Get(int id)
         {
@@ -49,7 +59,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
         }
 
-        // POST: api/Product
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public ActionResult Post([FromBody] Product value)
         {
@@ -57,7 +67,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             {
                 if (value.Category != null)
                 {
-                    value.Category =_categoryService.Read(value.Category.Id);
+                    value.Category = _categoryService.Read(value.Category.Id);
                 }
                 Product product = _productService.Create(value);
                 return Created("" + product.Id, product);
@@ -68,7 +78,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
         }
 
-        // PUT: api/Product/5
+        [Authorize(Roles = "Administrator")]
         [HttpPut]
         public ActionResult Put([FromBody] Product value)
         {
@@ -76,7 +86,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             {
                 if (value.Category != null)
                 {
-                    value.Category =_categoryService.Read(value.Category.Id);
+                    value.Category = _categoryService.Read(value.Category.Id);
                 }
                 _productService.Update(value);
                 return NoContent();
@@ -87,7 +97,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
         }
 
-        // DELETE: api/Product/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {

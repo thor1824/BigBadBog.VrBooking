@@ -10,6 +10,6 @@ namespace VrBooking.Core.ApplicationServices
         Product Read(long id);
         List<Product> ReadAll();
         Product Update(Product product);
-        object ReadAllWithPageFilter(FilterPageProductList pagefilter);
+        object ReadAllWithPageFilter(int pageIndex, int itemsPrPage, int filterId);
     }
 }

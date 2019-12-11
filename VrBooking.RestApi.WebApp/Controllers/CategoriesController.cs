@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using VrBooking.Core.ApplicationServices;
@@ -14,11 +15,11 @@ namespace VrBooking.RestApi.WebApp.Controllers
 
         public CategoriesController(ICategoryService service)
         {
-            _service=service;
+            _service = service;
         }
 
 
-        // GET: api/Category
+        [Authorize]
         [HttpGet]
         public ActionResult<IEnumerable<Category>> Get()
         {
@@ -33,7 +34,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
 
         }
 
-        // GET: api/Category/5
+        [Authorize]
         [HttpGet("{id}")]
         public ActionResult<Category> Get(int id)
         {
@@ -47,7 +48,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
         }
 
-        // POST: api/Category
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public ActionResult Post([FromBody] Category value)
         {
@@ -62,7 +63,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
         }
 
-        // PUT: api/Category/5
+        [Authorize(Roles = "Administrator")]
         [HttpPut()]
         public ActionResult Put([FromBody] Category value)
         {
@@ -77,7 +78,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
         }
 
-        // DELETE: api/Category/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {

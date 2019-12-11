@@ -115,7 +115,7 @@ namespace VrBooking.Core.ApplicationServices
                     throw new InvalidOperationException("Updated User was null");
                 }
 
-                if (!user.Equals(Read(user.Id)))
+                if (!updatedUser.Equals(Read(user.Id)))
                 {
                     throw new InvalidOperationException("User was not Updated");
                 }
@@ -149,6 +149,30 @@ namespace VrBooking.Core.ApplicationServices
             }
 
             return deletedUser;
+        }
+
+
+        public FilterPageList<UserInfo> ReadAllWithPageFilter(int pageIndex, int itemsPrPage)
+        {
+            try
+            {
+                IEnumerable<UserInfo> list = _repo.ReadAll();
+                int itemsTotal = list.Count();
+                return new FilterPageList<UserInfo>
+                {
+                    PageIndex = pageIndex,
+                    ItemsPrPage = itemsPrPage,
+                    ItemsTotal = itemsTotal,
+                    PageTotal = itemsTotal / itemsPrPage,
+                    List = list.Skip(pageIndex * itemsPrPage).Take(itemsPrPage).ToList()
+                };
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
         #endregion
 

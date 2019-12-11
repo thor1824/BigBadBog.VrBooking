@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using VrBooking.Core.ApplicationServices;
@@ -8,22 +9,30 @@ namespace VrBooking.RestApi.WebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersInfoController : ControllerBase
+    public class UserInfoController : ControllerBase
     {
         private readonly IUserInfoService _service;
 
-        public UsersInfoController(IUserInfoService service)
+        public UserInfoController(IUserInfoService service)
         {
-            _service=service;
+            _service = service;
         }
 
-        // GET: api/User
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
-        public ActionResult<IEnumerable<UserInfo>> Get()
+        public ActionResult<IEnumerable<UserInfo>> Get([FromQuery] int pageIndex, int itemsPrPage)
         {
             try
             {
-                return Ok(_service.ReadAll());
+                if (pageIndex == 0 && itemsPrPage == 0)
+                {
+                    return Ok(_service.ReadAll());
+                }
+                else
+                {
+                    return Ok(_service.ReadAllWithPageFilter(pageIndex, itemsPrPage));
+                }
+
             }
             catch (Exception e)
             {
@@ -32,7 +41,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
 
         }
 
-        // GET: api/User/5
+        [Authorize(Roles = "Administrator")]
         [HttpGet("{id}")]
         public ActionResult<UserInfo> Get(int id)
         {
@@ -46,7 +55,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
         }
 
-        // POST: api/User
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public ActionResult Post([FromBody] UserInfo value)
         {
@@ -61,8 +70,8 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
         }
 
-        // PUT: api/User/5
-        [HttpPut()]
+        [Authorize(Roles = "Administrator")]
+        [HttpPut]
         public ActionResult Put([FromBody] UserInfo value)
         {
             try
@@ -76,7 +85,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
         }
 
-        // DELETE: api/User/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {

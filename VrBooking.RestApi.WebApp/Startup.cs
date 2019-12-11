@@ -43,9 +43,9 @@ namespace VrBooking.RestApi.WebApp
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateAudience = false,
-                    //ValidAudience = "TodoApiClient",
+
                     ValidateIssuer = false,
-                    //ValidIssuer = "TodoApi",
+
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(secretBytes),
                     ValidateLifetime = true, //validate the expiration and not before values in the token
@@ -91,10 +91,10 @@ namespace VrBooking.RestApi.WebApp
         {
             if (env.IsDevelopment())
             {
-                using (var scope = app.ApplicationServices.CreateScope())
+                using (IServiceScope scope = app.ApplicationServices.CreateScope())
                 {
                     // Initialize the database
-                    var services = scope.ServiceProvider;
+                    IServiceProvider services = scope.ServiceProvider;
                     VrBookingContext ctx = services.GetService<VrBookingContext>();
                     IDbSeeder seeder = services.GetService<IDbSeeder>();
                     seeder.Seed(ctx);
@@ -104,10 +104,10 @@ namespace VrBooking.RestApi.WebApp
             }
             else
             {
-                using (var scope = app.ApplicationServices.CreateScope())
+                using (IServiceScope scope = app.ApplicationServices.CreateScope())
                 {
                     // Initialize the database
-                    var services = scope.ServiceProvider;
+                    IServiceProvider services = scope.ServiceProvider;
                     VrBookingContext ctx = services.GetService<VrBookingContext>();
                     IDbSeeder seeder = services.GetService<IDbSeeder>();
                     seeder.Seed(ctx);
