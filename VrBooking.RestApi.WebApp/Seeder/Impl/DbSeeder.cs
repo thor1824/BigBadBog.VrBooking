@@ -23,31 +23,31 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
             _authenticationHelper.CreatePasswordHash(paswordString, out byte[] passwordHash, out byte[] passwordSalt);
 
             UserInfo userInfo1 = new UserInfo()
-           {
-               Address = "BjørneBy",
-               Email = "thor666@easv365.dk",
-               FirstName = "Thorbjørn",
-               LastName = "Damkjær",
-               PhoneNumber = "12345678"
-           };
+            {
+                Address = "BjørneBy",
+                Email = "thor666@easv365.dk",
+                FirstName = "Thorbjørn",
+                LastName = "Damkjær",
+                PhoneNumber = "12345678"
+            };
 
-           LoginUser user1 = new LoginUser()
-           {
-               IsActivated = true,
-               IsAdmin = false,
-               PasswordHash = passwordHash,
-               PasswordSalt = passwordSalt,
-               UserInfo = userInfo1,
-           };
+            LoginUser user1 = new LoginUser()
+            {
+                IsActivated = true,
+                IsAdmin = false,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                UserInfo = userInfo1,
+            };
 
-           UserInfo userInfo2 = new UserInfo()
-           {
-               Email = "ole123@easv365.dk",
-               Address = "RoadRoad 1.",
-               FirstName = "'Christian",
-               LastName = "Andersen",
-               PhoneNumber = "12345678"
-           };
+            UserInfo userInfo2 = new UserInfo()
+            {
+                Email = "ole123@easv365.dk",
+                Address = "RoadRoad 1.",
+                FirstName = "'Christian",
+                LastName = "Andersen",
+                PhoneNumber = "12345678"
+            };
             LoginUser user2 = new LoginUser()
             {
                 IsActivated = true,
@@ -202,7 +202,7 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
 
             ctx.AddRange(prods);
             ctx.AddRange(cats);
-            ctx.AddRange(new List<LoginUser> { user1, user2, user3});
+            ctx.AddRange(new List<LoginUser> { user1, user2, user3 });
             ctx.AddRange(list);
             ctx.SaveChanges();
 

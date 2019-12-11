@@ -14,7 +14,7 @@ namespace VrBooking.Core.ApplicationServices
 
         public LoginUserService(IRepository<LoginUser> repo)
         {
-            this._repo = repo;
+            _repo = repo;
         }
 
 
@@ -228,7 +228,7 @@ namespace VrBooking.Core.ApplicationServices
         public bool IsUserNameValid(LoginUser user)
         {
 
-            var regexItem = new Regex("^([\\w\\.\\-_]+)@easv365.dk*$");
+            Regex regexItem = new Regex("^([\\w\\.\\-_]+)@easv365.dk*$");
 
 
             if (regexItem.IsMatch(user.UserInfo.Email))

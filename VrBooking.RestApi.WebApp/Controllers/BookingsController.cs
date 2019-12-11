@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using VrBooking.Core.ApplicationServices;
@@ -25,22 +26,32 @@ namespace VrBooking.RestApi.WebApp.Controllers
 
 
 
-        // GET: api/Booking
+        [Authorize]
         [HttpGet]
-        public ActionResult<IEnumerable<BookingAdapterOut>> Get()
+        public ActionResult<IEnumerable<BookingAdapterOut>> Get([FromQuery] long start, long end, int productId)
         {
             try
             {
-                List<BookingAdapterOut> bookings = new List<BookingAdapterOut>();
-                foreach (var booking in _bookingService.ReadAll())
+                List<BookingOrder> bookings;
+                if (start == 0 && end == 0)
                 {
-                    bookings.Add(new BookingAdapterOut
+                    bookings = _bookingService.ReadAll();
+                }
+                else
+                {
+                    bookings = _bookingService.ReadByWeek(DateConverter.FromUTCEpochToDatetime(start), DateConverter.FromUTCEpochToDatetime(end), productId);
+                }
+
+                List<BookingAdapterOut> bookingsOut = new List<BookingAdapterOut>();
+                foreach (BookingOrder item in bookings)
+                {
+                    bookingsOut.Add(new BookingAdapterOut
                     {
-                        Id = booking.Id,
-                        Product = booking.Product,
-                        User = booking.User,
-                        StartTimeOfBooking = DateConverter.FromDatetimeToUTCEpoch(booking.StartTimeOfBooking),
-                        EndTimeOfBooking = DateConverter.FromDatetimeToUTCEpoch(booking.EndTimeOfBooking)
+                        Id = item.Id,
+                        Product = item.Product,
+                        User = item.User,
+                        StartTimeOfBooking = DateConverter.FromDatetimeToUTCEpoch(item.StartTimeOfBooking),
+                        EndTimeOfBooking = DateConverter.FromDatetimeToUTCEpoch(item.EndTimeOfBooking)
                     });
                 }
                 return Ok(bookings);
@@ -52,7 +63,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
 
         }
 
-        // GET: api/Booking/5
+        [Authorize]
         [HttpGet("{id}")]
         public ActionResult<BookingAdapterOut> Get(int id)
         {
@@ -74,7 +85,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
         }
 
-        // POST: api/Booking
+        [Authorize]
         [HttpPost]
         public ActionResult<BookingAdapterOut> Post([FromBody] BookingAdapterIn value)
         {
@@ -103,7 +114,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
         }
 
-        // PUT: api/Booking/5
+        [Authorize(Roles = "Administrator")]
         [HttpPut()]
         public ActionResult Put([FromBody] BookingAdapterIn value)
         {
@@ -125,7 +136,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
         }
 
-        // DELETE: api/Booking/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {

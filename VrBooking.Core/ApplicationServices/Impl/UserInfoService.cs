@@ -152,17 +152,20 @@ namespace VrBooking.Core.ApplicationServices
         }
 
 
-        public object ReadAllWithPageFilter(FilterPageList<UserInfo> pagefilter)
+        public FilterPageList<UserInfo> ReadAllWithPageFilter(int pageIndex, int itemsPrPage)
         {
             try
             {
                 IEnumerable<UserInfo> list = _repo.ReadAll();
-               
-                pagefilter.ItemsTotal = list.Count();
-                pagefilter.PageTotal = pagefilter.ItemsTotal / pagefilter.ItemsPrPage;
-
-                pagefilter.List = list.Skip(pagefilter.PageIndex * pagefilter.ItemsPrPage).Take(pagefilter.ItemsPrPage).ToList();
-
+                int itemsTotal = list.Count();
+                return new FilterPageList<UserInfo>
+                {
+                    PageIndex = pageIndex,
+                    ItemsPrPage = itemsPrPage,
+                    ItemsTotal = itemsTotal,
+                    PageTotal = itemsTotal / itemsPrPage,
+                    List = list.Skip(pageIndex * itemsPrPage).Take(itemsPrPage).ToList()
+                };
 
             }
             catch (Exception e)
@@ -170,7 +173,6 @@ namespace VrBooking.Core.ApplicationServices
 
                 throw e;
             }
-            return pagefilter;
         }
         #endregion
 
