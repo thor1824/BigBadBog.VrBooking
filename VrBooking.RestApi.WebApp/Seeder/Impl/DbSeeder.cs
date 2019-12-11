@@ -18,12 +18,12 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
         {
 
 
-            if (ctx.Database.IsSqlServer())
-            {
-                ctx.Database.ExecuteSqlCommand("DROP DATABASE VrBooking-db");
-            } else {
+            //if (ctx.Database.IsSqlServer())
+            //{
+            //    ctx.Database.ExecuteSqlCommand("DROP DATABASE VrBooking-db");
+            //} else {
                 ctx.Database.EnsureDeleted();
-            }
+            //}
 
             ctx.Database.EnsureCreated();
 
