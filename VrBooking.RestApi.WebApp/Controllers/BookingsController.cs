@@ -58,7 +58,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
 
         }
@@ -81,7 +81,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
         }
 
@@ -110,7 +110,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
         }
 
@@ -132,7 +132,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
         }
 
@@ -147,7 +147,7 @@ namespace VrBooking.RestApi.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
         }
     }

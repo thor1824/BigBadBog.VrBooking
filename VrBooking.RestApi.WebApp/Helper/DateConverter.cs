@@ -6,12 +6,12 @@ namespace VrBooking.RestApi.WebApp.Helper
     {
         public static double FromDatetimeToUTCEpoch(DateTime date)
         {
-            return date.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+            return date.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
         }
 
         public static DateTime FromUTCEpochToDatetime(long msSinceEpoch)
         {
-            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc) + new TimeSpan(msSinceEpoch * 10000);
+            return new DateTime(1970, 1, 1, 0, 0, 0) + new TimeSpan(msSinceEpoch * 10000);
         }
 
     }
