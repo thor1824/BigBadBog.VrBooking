@@ -19,7 +19,7 @@ namespace VrBooking.RestApi.WebApp.Seeder.Impl
 
 
 
-            if (ctx.Database.EnsureCreated()) ;
+            if (ctx.Database.EnsureCreated())
             {
 
                 string paswordString = "123456";

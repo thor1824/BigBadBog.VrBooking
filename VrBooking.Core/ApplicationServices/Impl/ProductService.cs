@@ -81,7 +81,7 @@ namespace VrBooking.Core.ApplicationServices
             }
         }
 
-        public object ReadAllWithPageFilter(int pageIndex, int itemsPrPage, int filterId)
+        public FilterPageList<Product> ReadAllWithPageFilter(int pageIndex, int itemsPrPage, int filterId)
         {
             FilterPageList<Product> pageList = new FilterPageList<Product>();
             try
@@ -94,9 +94,12 @@ namespace VrBooking.Core.ApplicationServices
                     list = temp;
                 }
                 pageList.ItemsTotal = list.Count();
+                pageList.ItemsPrPage = itemsPrPage;
+                pageList.PageIndex = pageIndex;
                 pageList.PageTotal = pageList.ItemsTotal / itemsPrPage;
 
                 pageList.List = list.Skip(pageIndex * itemsPrPage).Take(itemsPrPage).ToList();
+
             }
             catch (Exception e)
             {
